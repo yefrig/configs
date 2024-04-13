@@ -474,7 +474,14 @@ require("lazy").setup({
 			require("mini.statusline").setup()
 			require("mini.tabline").setup()
 			require("mini.indentscope").setup()
+			require("mini.bracketed").setup()
+			require("mini.pairs").setup()
+			require("mini.sessions").setup()
+			require("mini.starter").setup()
+			require("mini.surround").setup()
+			require("mini.files").setup()
 
+			vim.keymap.set("n", "<leader>ed", "<Cmd>lua MiniFiles.open()<CR>", { desc = "[e]xplore [d]irectory" })
 			-- ... and there is more!
 			--  Check out: https://github.com/echasnovski/mini.nvim
 		end,
