@@ -397,10 +397,10 @@ require("lazy").setup({
 					["<C-b>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
 
-					-- Accept ([y]es) the completion.
+					-- Accept the completion.
 					--  This will auto-import if your LSP supports it.
 					--  This will expand snippets if the LSP sent a snippet.
-					["<C-y>"] = cmp.mapping.confirm({ select = true }),
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
 
 					-- Manually trigger a completion from nvim-cmp.
 					--  Generally you don't need this, because nvim-cmp will display
@@ -434,6 +434,9 @@ require("lazy").setup({
 					{ name = "luasnip" },
 					{ name = "path" },
 				},
+				experimental = {
+					ghost_text = true,
+				},
 			})
 		end,
 	},
@@ -449,7 +452,6 @@ require("lazy").setup({
 	{ -- Collection of various small independent plugins/modules
 		"echasnovski/mini.nvim",
 		config = function()
-			vim.cmd.colorscheme("randomhue")
 			-- Better Around/Inside textobjects
 			--
 			-- Examples:
@@ -479,7 +481,8 @@ require("lazy").setup({
 			require("mini.pairs").setup()
 			require("mini.sessions").setup()
 			require("mini.starter").setup()
-			require("mini.surround").setup()
+			-- disable until keymaps are figured out
+			-- require("mini.surround").setup()
 			require("mini.files").setup()
 
 			vim.keymap.set("n", "<leader>ed", "<Cmd>lua MiniFiles.open()<CR>", { desc = "[e]xplore [d]irectory" })
@@ -515,6 +518,19 @@ require("lazy").setup({
 			--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
 			--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
 			--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+		end,
+	},
+	{
+		"Shatur/neovim-ayu",
+		priority = 1000,
+		init = function()
+			vim.cmd.colorscheme("ayu")
+		end,
+	},
+	{
+		"ggandor/leap.nvim",
+		config = function()
+			require("leap").create_default_mappings()
 		end,
 	},
 	-- Java
