@@ -18,6 +18,11 @@ vim.opt.list = false
 vim.opt.hlsearch = true
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+vim.opt.tabstop = 4
+vim.opt.expandtab = true
+
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
@@ -465,7 +470,7 @@ require("lazy").setup({
 			-- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
 			-- - sd'   - [S]urround [D]elete [']quotes
 			-- - sr)'  - [S]urround [R]eplace [)] [']
-			require("mini.surround").setup()
+			-- require("mini.surround").setup()
 
 			require("mini.basics").setup({
 				options = { extra_ui = true },
@@ -482,7 +487,6 @@ require("lazy").setup({
 			require("mini.sessions").setup()
 			require("mini.starter").setup()
 			-- disable until keymaps are figured out
-			-- require("mini.surround").setup()
 			require("mini.files").setup()
 
 			vim.keymap.set("n", "<leader>ed", "<Cmd>lua MiniFiles.open()<CR>", { desc = "[e]xplore [d]irectory" })
@@ -536,6 +540,3 @@ require("lazy").setup({
 	-- Java
 	"mfussenegger/nvim-jdtls",
 }, {})
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
