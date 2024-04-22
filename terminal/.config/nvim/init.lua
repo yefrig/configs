@@ -484,7 +484,6 @@ require("lazy").setup({
 			require("mini.comment").setup()
 			require("mini.diff").setup()
 			require("mini.statusline").setup()
-			require("mini.tabline").setup()
 			require("mini.indentscope").setup()
 			require("mini.bracketed").setup()
 			require("mini.pairs").setup()
@@ -540,6 +539,11 @@ require("lazy").setup({
 		config = function()
 			require("leap").create_default_mappings()
 		end,
+	},
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = true,
 	},
 	-- Java
 	"mfussenegger/nvim-jdtls",
