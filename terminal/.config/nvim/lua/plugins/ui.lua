@@ -1,5 +1,14 @@
 return {
   {
+    "LazyVim/LazyVim",
+    dependencies = {
+      "Shatur/neovim-ayu",
+    },
+    opts = {
+      colorscheme = "ayu",
+    },
+  },
+  {
     "nvimdev/dashboard-nvim",
     dependencies = {
       "MaximilianLloyd/ascii.nvim",
