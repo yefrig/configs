@@ -5,7 +5,7 @@ return {
       "Shatur/neovim-ayu",
     },
     opts = {
-      colorscheme = "ayu",
+      colorscheme = "catppuccin",
     },
   },
   {
