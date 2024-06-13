@@ -1,11 +1,17 @@
 return {
   {
+    "folke/tokyonight.nvim",
+    opts = {
+      style = "moon",
+    },
+  },
+  {
     "LazyVim/LazyVim",
     dependencies = {
       "Shatur/neovim-ayu",
     },
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "tokyonight",
     },
   },
   {
