@@ -1,3 +1,5 @@
+# enable vim mode
+bindkey -v
 
 # history
 setopt histignorealldups sharehistory
