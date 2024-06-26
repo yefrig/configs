@@ -1,3 +1,8 @@
+source ${ZDOTDIR:-~}/.antidote/antidote.zsh
+
+antidote load
+
+prompt zephyr
 
 # fzf opts
 # Preview file content using bat
@@ -26,6 +31,3 @@ export FZF_ALT_C_OPTS="
 # aliases
 alias nv=nvim
 alias nvf="fzf --multi --bind 'enter:become(nvim {+})'"
-
-# enable starship prompt
-eval "$(starship init zsh)"
