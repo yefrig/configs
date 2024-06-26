@@ -4,6 +4,8 @@ antidote load
 
 prompt zephyr
 
+zstyle ':zephyr:plugin:editor' key-bindings 'vi'
+
 # fzf opts
 # Preview file content using bat
 export FZF_CTRL_T_OPTS="
