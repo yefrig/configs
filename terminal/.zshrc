@@ -33,3 +33,6 @@ export FZF_ALT_C_OPTS="
 # aliases
 alias nv=nvim
 alias nvf="fzf --multi --bind 'enter:become(nvim {+})'"
+
+export VISUAL=nvim
+export EDITOR="$VISUAL"
