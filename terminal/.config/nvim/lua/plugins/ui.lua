@@ -5,13 +5,14 @@ return {
       style = "moon",
     },
   },
+  "rebelot/kanagawa.nvim",
   {
     "LazyVim/LazyVim",
     dependencies = {
       "Shatur/neovim-ayu",
     },
     opts = {
-      colorscheme = "tokyonight",
+      colorscheme = "kanagawa",
     },
   },
   {
