@@ -2,7 +2,7 @@ source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 
 antidote load
 
-prompt zephyr
+prompt starship
 
 zstyle ':zephyr:plugin:editor' key-bindings 'vi'
 
