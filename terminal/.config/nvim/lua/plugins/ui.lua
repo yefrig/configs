@@ -7,12 +7,21 @@ return {
   },
   "rebelot/kanagawa.nvim",
   {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    opts = {
+      highlight_groups = {
+        DashboardDesc = { fg = "rose" },
+      },
+    },
+  },
+  {
     "LazyVim/LazyVim",
     dependencies = {
       "Shatur/neovim-ayu",
     },
     opts = {
-      colorscheme = "kanagawa",
+      colorscheme = "rose-pine",
     },
   },
   {
