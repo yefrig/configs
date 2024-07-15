@@ -1,10 +1,10 @@
 source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 
+zstyle ':zephyr:plugin:editor' key-bindings 'vi'
 antidote load
 
 prompt starship
 
-zstyle ':zephyr:plugin:editor' key-bindings 'vi'
 
 # fzf opts
 # Preview file content using bat
