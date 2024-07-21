@@ -11,3 +11,5 @@ fzf --fish | source
 
 # path
 fish_add_path /opt/local/bin/
+
+fish_config theme choose "Rosé Pine"
