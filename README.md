@@ -12,3 +12,4 @@ Config files are managed with [GNU Stow](https://www.gnu.org/software/stow/). To
 - [starship prompt](https://starship.rs/)
 - [stow](https://www.gnu.org/software/stow/manual/stow.html) for symlinking configs
 - [fzf](https://github.com/junegunn/fzf) for fuzzy searching
+- [fd](https://github.com/sharkdp/fd) for finding files
