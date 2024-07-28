@@ -8,4 +8,5 @@ return {
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.java" },
   { import = "astrocommunity.editing-support.rainbow-delimiters-nvim" },
+  { import = "astrocommunity.fuzzy-finder.fzf-lua" },
 }
