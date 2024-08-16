@@ -7,24 +7,19 @@
 [delta]
     navigate = true    # use n and N to move between diff sections
 
-    # tokyonight_moon theme. Ref: https://github.com/folke/tokyonight.nvim/blob/main/extras/delta/tokyonight_moon.gitconfig
-    minus-style                   = syntax "#3a273a"
-    minus-non-emph-style          = syntax "#3a273a"
-    minus-emph-style              = syntax "#6b2e43"
-    minus-empty-line-marker-style = syntax "#3a273a"
-    line-numbers-minus-style      = "#b55a67"
-    plus-style                    = syntax "#273849"
-    plus-non-emph-style           = syntax "#273849"
-    plus-emph-style               = syntax "#305f6f"
-    plus-empty-line-marker-style  = syntax "#273849"
-    line-numbers-plus-style       = "#627259"
-    line-numbers-zero-style       = "#3b4261"
-
 [merge]
     conflictstyle = diff3
 
 [diff]
     colorMoved = default
+
 [user]
     name = Yefri G
     email = yefrigaitan@gmail.com
+
+[credential "https://github.com"]
+        helper =
+        helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+        helper =
+        helper = !/usr/bin/gh auth git-credential
