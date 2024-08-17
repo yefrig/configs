@@ -18,3 +18,4 @@ Config files are managed with [GNU Stow](https://www.gnu.org/software/stow/). To
 - [fzf](https://github.com/junegunn/fzf) for fuzzy searching
 - [fd](https://github.com/sharkdp/fd) for finding files
 - [delta](https://github.com/dandavison/delta) for diffing
+- [wezterm](https://wezfurlong.org/wezterm/) for terminal emulation
