@@ -8,6 +8,10 @@ Config files are managed with [GNU Stow](https://www.gnu.org/software/stow/). To
 
 ## tools
 
+- [neovim](https://neovim.io/)
+- [gcc](https://gcc.gnu.org/) for Tressitter
+- [ripgrep](https://github.com/BurntSushi/ripgrep) for fast grep
+- [node](https://nodejs.org/en) for installing language servers in neovim
 - [fish shell](https://fishshell.com/)
 - [starship prompt](https://starship.rs/)
 - [stow](https://www.gnu.org/software/stow/manual/stow.html) for symlinking configs
