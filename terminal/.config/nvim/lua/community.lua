@@ -11,4 +11,5 @@ return {
   { import = "astrocommunity.pack.typescript" },
   { import = "astrocommunity.editing-support.rainbow-delimiters-nvim" },
   { import = "astrocommunity.fuzzy-finder.fzf-lua" },
+  { import = "astrocommunity.search.grug-far-nvim" },
 }
