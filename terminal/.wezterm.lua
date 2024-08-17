@@ -4,7 +4,7 @@ local smart_splits = wezterm.plugin.require("https://github.com/mrjones2014/smar
 
 local config = wezterm.config_builder()
 
-config.color_scheme = "rose-pine"
+config.color_scheme = "Rosé Pine (Gogh)"
 
 -- integration with neovim plugin
 smart_splits.apply_to_config(config, {
