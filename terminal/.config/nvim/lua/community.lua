@@ -7,6 +7,7 @@ return {
   "AstroNvim/astrocommunity",
   { import = "astrocommunity.colorscheme.nightfox-nvim" },
   { import = "astrocommunity.colorscheme.catppuccin" },
+  { import = "astrocommunity.colorscheme.kanagawa-nvim" },
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.java" },
   { import = "astrocommunity.pack.json" },
