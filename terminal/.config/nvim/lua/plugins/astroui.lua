@@ -4,11 +4,18 @@
 ---@type LazySpec
 return {
   { "rose-pine/neovim", name = "rose-pine" },
+  { "ellisonleao/gruvbox.nvim", priority = 1000, opts = {} },
+  {
+    "EdenEast/nightfox.nvim",
+    opts = {
+      groups = { all = { ["@lsp.type.modifier.java"] = { link = "Keyword" } } },
+    },
+  },
   {
     "AstroNvim/astroui",
     ---@type AstroUIOpts
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "duskfox",
       -- AstroUI allows you to easily modify highlight groups easily for any and all colorschemes
       highlights = {
         init = { -- this table overrides highlights in all themes
