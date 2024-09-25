@@ -31,3 +31,20 @@ require("mini.basics").setup({
 later(function()
 	require("mini.ai").setup()
 end)
+
+-- Core Plugins
+later(function()
+	add({
+		source = "nvim-treesitter/nvim-treesitter",
+		hooks = {
+			post_checkout = function()
+				vim.cmd("TSUpdate")
+			end,
+		},
+	})
+	require("nvim-treesitter.configs").setup({
+		auto_install = true,
+		highlight = { enable = true },
+		indent = { enable = true },
+	})
+end)
