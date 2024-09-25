@@ -17,17 +17,17 @@ end
 
 require("mini.deps").setup({ path = { package = path_package } })
 
-local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
+local add, later = MiniDeps.add, MiniDeps.later
 
-now(function()
-	vim.cmd.colorscheme("randomhue")
-end)
+vim.cmd.colorscheme("randomhue")
 
 -- TODO: might want to disable helper symbols but keep extra_ui goodies enabled
-now(function()
-	require("mini.basics").setup({
-		options = { extra_ui = true },
-		mappings = { windows = true, move_with_alt = true },
-		autocommands = { relnum_in_visual_mode = true },
-	})
+require("mini.basics").setup({
+	options = { extra_ui = true },
+	mappings = { windows = true, move_with_alt = true },
+	autocommands = { relnum_in_visual_mode = true },
+})
+
+later(function()
+	require("mini.ai").setup()
 end)
