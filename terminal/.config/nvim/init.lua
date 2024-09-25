@@ -27,10 +27,12 @@ require("mini.basics").setup({
 	mappings = { windows = true, move_with_alt = true },
 	autocommands = { relnum_in_visual_mode = true },
 })
+require("mini.statusline").setup()
 
-later(function()
-	require("mini.ai").setup()
-end)
+later(function() require("mini.ai").setup() end)
+later(function() require("mini.git").setup() end)
+-- TODO: test around provided mappings
+later(function() require("mini.diff").setup() end)
 
 -- Core Plugins
 later(function()
