@@ -1,4 +1,5 @@
 return {
+  ["mason.nvim"] = "e2f7f9044ec30067bc11800a9e266664b88cda22",
   ["mini.nvim"] = "e50cf9de614500a20e47cfc50e30a100042f91c3",
   ["nvim-treesitter"] = "6511cd984ab4b21e28f83af488f38dc89c3b0586"
 }

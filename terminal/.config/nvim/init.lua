@@ -35,6 +35,7 @@ later(function() require("mini.git").setup() end)
 later(function() require("mini.diff").setup() end)
 
 -- Core Plugins
+
 later(function()
 	add({
 		source = "nvim-treesitter/nvim-treesitter",
@@ -49,4 +50,9 @@ later(function()
 		highlight = { enable = true },
 		indent = { enable = true },
 	})
+end)
+
+later(function ()
+	add('williamboman/mason.nvim')
+	require('mason').setup()
 end)
