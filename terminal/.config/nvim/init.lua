@@ -1,4 +1,4 @@
--- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
+
 local path_package = vim.fn.stdpath("data") .. "/site/"
 local mini_path = path_package .. "pack/deps/start/mini.nvim"
 if not vim.loop.fs_stat(mini_path) then
@@ -15,9 +15,12 @@ if not vim.loop.fs_stat(mini_path) then
 	vim.cmd('echo "Installed `mini.nvim`" | redraw')
 end
 
+-- Mini.nvim
+
 require("mini.deps").setup({ path = { package = path_package } })
 
-local add, later = MiniDeps.add, MiniDeps.later
+-- TODO: deal with lazy loading later using now() and later()
+local add = MiniDeps.add
 
 vim.cmd.colorscheme("randomhue")
 
@@ -32,31 +35,60 @@ require("mini.icons").setup()
 require("mini.statusline").setup()
 
 
-later(function() require("mini.ai").setup() end)
-later(function() require("mini.git").setup() end)
+require("mini.ai").setup()
+require("mini.git").setup()
 -- TODO: test around provided mappings
-later(function() require("mini.diff").setup() end)
-later(function() require("mini.completion").setup() end)
+require("mini.diff").setup()
+require("mini.completion").setup()
 
 -- Core Plugins
 
-later(function()
-	add({
-		source = "nvim-treesitter/nvim-treesitter",
-		hooks = {
-			post_checkout = function()
-				vim.cmd("TSUpdate")
-			end,
-		},
-	})
-	require("nvim-treesitter.configs").setup({
-		auto_install = true,
-		highlight = { enable = true },
-		indent = { enable = true },
-	})
-end)
+-- NOTE: both mason and nvim-lspconfig are loaded instantly to avoid issues when opening files
+add('williamboman/mason.nvim')
+require('mason').setup()
 
-later(function ()
-	add('williamboman/mason.nvim')
-	require('mason').setup()
-end)
+
+add({
+	source = 'neovim/nvim-lspconfig',
+	depends = { 'williamboman/mason.nvim'}
+})
+local lspconfig = require('lspconfig')
+
+lspconfig.lua_ls.setup {
+	on_init = function(client)
+		if client.workspace_folders then
+			local path = client.workspace_folders[1].name
+			if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+				return
+			end
+		end
+
+		client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+			runtime = {
+				version = 'LuaJIT'
+			},
+			-- Make the server aware of Neovim runtime files
+			workspace = {
+				checkThirdParty = false,
+				library = vim.api.nvim_get_runtime_file("", true)
+			}
+		})
+	end,
+	settings = {
+		Lua = {}
+	}
+}
+
+add({
+	source = "nvim-treesitter/nvim-treesitter",
+	hooks = {
+		post_checkout = function()
+			vim.cmd("TSUpdate")
+		end,
+	},
+})
+require("nvim-treesitter.configs").setup({
+	auto_install = true,
+	highlight = { enable = true },
+	indent = { enable = true },
+})
