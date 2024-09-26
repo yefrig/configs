@@ -32,9 +32,9 @@ require("mini.basics").setup({
 })
 -- TODO: use tweak_lsp_kind()
 require("mini.icons").setup()
+MiniDeps.later(MiniIcons.tweak_lsp_kind)
+
 require("mini.statusline").setup()
-
-
 require("mini.ai").setup()
 require("mini.git").setup()
 -- TODO: test around provided mappings
