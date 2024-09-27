@@ -22,7 +22,9 @@ require("mini.deps").setup({ path = { package = path_package } })
 -- TODO: deal with lazy loading later using now() and later()
 local add = MiniDeps.add
 
-vim.cmd.colorscheme("randomhue")
+add('EdenEast/nightfox.nvim')
+
+vim.cmd.colorscheme('duskfox')
 
 -- TODO: might want to disable helper symbols but keep extra_ui goodies enabled
 require("mini.basics").setup({
@@ -40,6 +42,13 @@ require("mini.git").setup()
 -- TODO: test around provided mappings
 require("mini.diff").setup()
 require("mini.completion").setup()
+
+require('mini.files').setup()
+local toggle_minifiles = function(...)
+	if not MiniFiles.close() then MiniFiles.open(...) end
+end
+vim.keymap.set('n', '<Leader>e', toggle_minifiles, { desc = 'Explorer' })
+vim.keymap.set('n', '<Leader>E', function() toggle_minifiles(vim.api.nvim_buf_get_name(0)) end, { desc = 'Current File Explorer' })
 
 -- Core Plugins
 
@@ -75,7 +84,7 @@ lspconfig.lua_ls.setup {
 		})
 	end,
 	settings = {
-		Lua = {}
+		Lua = { hint = { enable = true } }
 	}
 }
 
