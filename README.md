@@ -19,3 +19,18 @@ Config files are managed with [GNU Stow](https://www.gnu.org/software/stow/). To
 - [fd](https://github.com/sharkdp/fd) for finding files
 - [delta](https://github.com/dandavison/delta) for diffing
 - [wezterm](https://wezfurlong.org/wezterm/) for terminal emulation
+
+## Installation order
+
+(depending on your package manager of choice)
+
+- wezterm
+```fish
+sudo dnf copr enable wezfurlong/wezterm-nightly
+sudo dnf install wezterm
+```
+- fish
+```fish
+sudo dnf install fish
+sudo chsh -s $(which fish)
+```
