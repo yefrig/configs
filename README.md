@@ -46,3 +46,11 @@ curl -sS https://starship.rs/install.sh | sh
 ```fish
 sudo dnf install fzf
 ```
+- stow
+```
+sudo dnf install stow
+```
+- delta
+```
+sudo dnf install git-delta
+```
