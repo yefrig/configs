@@ -38,3 +38,11 @@ sudo chsh -s $(which fish)
 ```fish
 sudo dnf install neovim
 ```
+- starship
+```fish
+curl -sS https://starship.rs/install.sh | sh
+```
+- fzf
+```fish
+sudo dnf install fzf
+```
