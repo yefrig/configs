@@ -35,6 +35,6 @@ sudo dnf install fish
 sudo chsh -s $(which fish)
 ```
 - neovim
-- ```fish
+```fish
 sudo dnf install neovim
-  ```
+```
