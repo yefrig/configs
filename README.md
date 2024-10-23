@@ -34,3 +34,7 @@ sudo dnf install wezterm
 sudo dnf install fish
 sudo chsh -s $(which fish)
 ```
+- neovim
+- ```fish
+sudo dnf install neovim
+  ```
