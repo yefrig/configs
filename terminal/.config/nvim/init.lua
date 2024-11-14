@@ -1,5 +1,6 @@
 pcall(function() vim.loader.enable() end)
 
+
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
 local path_package = vim.fn.stdpath('data') .. '/site/'
 local mini_path = path_package .. 'pack/deps/start/mini.nvim'
@@ -23,6 +24,7 @@ now(function() vim.cmd('colorscheme randomhue') end)
 
 now(function()
   require('mini.basics').setup({
+    options = { extra_ui = true },
     mappings = { windows = true, move_with_alt = true },
     autocommands = { relnum_in_visual_mode = true },
   })
@@ -35,6 +37,11 @@ end)
 -- TODO: Figure out why nvim-lspconfig cannot be lazy loaded or else ls won't start when opening a file directly
 now(function()
   add('neovim/nvim-lspconfig')
+
+
+  local function custom_on_attach(_, buf_id)
+    vim.bo[buf_id].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
+  end
 
   local lspconfig = require('lspconfig')
 
@@ -51,14 +58,16 @@ now(function()
         runtime = { version = 'LuaJIT' },
         -- Make the server aware of Neovim runtime files
         workspace = {
-  	  checkThirdParty = false,
-	  library = { vim.env.VIMRUNTIME }
+          checkThirdParty = false,
+          library = vim.api.nvim_get_runtime_file("", true)
         }
       })
     end,
-    on_attach = function(client, _)
+    on_attach = function(client, buf_id)
       -- Reduce unnecessarily long list of completion triggers for better `MiniCompletion` experience
       client.server_capabilities.completionProvider.triggerCharacters = { '.', ':' }
+
+      custom_on_attach(client, buf_id)
     end,
     settings = {
       Lua = {}
@@ -89,6 +98,7 @@ end)
 later(function()
   require('mini.completion').setup({
     lsp_completion = {
+      auto_setup = false,
       source_func = 'omnifunc',
       process_items = function(items, base)
         -- Don't show 'Text' and 'Snippet' suggestions
