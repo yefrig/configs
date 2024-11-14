@@ -18,6 +18,7 @@ require('mini.deps').setup({ path = { package = path_package } })
 
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
+
 now(function() vim.cmd('colorscheme randomhue') end)
 
 now(function()
@@ -51,11 +52,16 @@ now(function()
         }
       })
     end,
+    on_attach = function(client, _)
+      -- Reduce unnecessarily long list of completion triggers for better `MiniCompletion` experience
+      client.server_capabilities.completionProvider.triggerCharacters = { '.', ':' }
+    end,
     settings = {
       Lua = {}
     }
   }
 end)
+
 later(function()
   add({
     source = 'nvim-treesitter/nvim-treesitter',
@@ -76,3 +82,42 @@ later(function()
     }
   })
 end)
+later(function()
+  require('mini.completion').setup({
+    lsp_completion = {
+      source_func = 'omnifunc',
+      process_items = function(items, base)
+        -- Don't show 'Text' and 'Snippet' suggestions
+        items = vim.tbl_filter(function(x) return x.kind ~= 1 and x.kind ~= 15 end, items)
+        return MiniCompletion.default_process_items(items, base)
+      end,
+    },
+    window = {
+      info = { border = 'double' },
+      signature = { border = 'double' }
+    }
+  })
+end)
+later(function() require('mini.pairs').setup({}) end)
+
+
+-- keymaps
+local keycode = vim.keycode or function(x)
+  return vim.api.nvim_replace_termcodes(x, true, true, true)
+end
+local keys = {
+  ['cr']        = keycode('<CR>'),
+  ['ctrl-y']    = keycode('<C-y>'),
+  ['ctrl-y_cr'] = keycode('<C-y><CR>'),
+}
+_G.cr_action = function()
+  if vim.fn.pumvisible() ~= 0 then
+    -- If popup is visible, confirm selected item or add new line otherwise
+    local item_selected = vim.fn.complete_info()['selected'] ~= -1
+    return item_selected and keys['ctrl-y'] or keys['ctrl-y_cr']
+  else
+    -- If popup is not visible, use plain `<CR>`.
+    return MiniPairs.cr()
+  end
+end
+vim.keymap.set('i', '<CR>', 'v:lua._G.cr_action()', { expr = true })
