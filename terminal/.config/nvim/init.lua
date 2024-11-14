@@ -26,3 +26,24 @@ now(function()
     autocommands = { relnum_in_visual_mode = true },
   }) 
 end)
+
+later(function()
+  add({ 
+    source = 'nvim-treesitter/nvim-treesitter',
+    hooks = { post_checkout = function() vim.cmd('TSUpdate') end }
+  })
+  require('nvim-treesitter.configs').setup({
+    auto_install = true,
+    highlight = {
+      enable = true
+    },
+    -- TODO: update keybinds for selection
+    incremental_selection = {
+      enable = true,
+    },
+    -- indent based on treesitter for = operator
+    indent = {
+      enable = true
+    }
+  })
+end)
