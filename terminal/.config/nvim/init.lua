@@ -26,6 +26,7 @@ now(function()
     autocommands = { relnum_in_visual_mode = true },
   }) 
 end)
+now(function() require('mini.statusline').setup() end)
 
 later(function()
   add({ 
