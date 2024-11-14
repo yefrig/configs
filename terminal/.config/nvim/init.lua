@@ -117,6 +117,8 @@ later(function()
   })
 end)
 later(function() require('mini.pairs').setup() end)
+-- indent lines + ii and ai for text objects
+later(function() require('mini.indentscope').setup() end)
 
 
 -- keymaps
