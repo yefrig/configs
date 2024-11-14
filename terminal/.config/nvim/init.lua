@@ -119,6 +119,8 @@ end)
 later(function() require('mini.pairs').setup() end)
 -- indent lines + ii and ai for text objects
 later(function() require('mini.indentscope').setup() end)
+later(function() require('mini.diff').setup() end)
+later(function() require('mini.git').setup() end)
 
 
 -- keymaps
@@ -140,4 +142,8 @@ _G.cr_action = function()
     return MiniPairs.cr()
   end
 end
+
 vim.keymap.set('i', '<CR>', 'v:lua._G.cr_action()', { expr = true })
+-- Git
+vim.keymap.set('n', '<Leader>go', function() MiniDiff.toggle_overlay(0) end, { desc = "Toggle diff overlay" })
+vim.keymap.set({ 'n', 'x' }, '<Leader>gs',  '<Cmd>lua MiniGit.show_at_cursor()<CR>', { desc = 'Show at cursor' })
