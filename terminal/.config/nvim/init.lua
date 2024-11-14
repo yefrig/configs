@@ -34,6 +34,10 @@ now(function()
   require('mini.notify').setup()
   vim.notify = MiniNotify.make_notify()
 end)
+now(function() 
+  require('mini.icons').setup()
+  later(MiniIcons.tweak_lsp_kind)
+end)
 -- TODO: Figure out why nvim-lspconfig cannot be lazy loaded or else ls won't start when opening a file directly
 now(function()
   add('neovim/nvim-lspconfig')
@@ -112,7 +116,7 @@ later(function()
     }
   })
 end)
-later(function() require('mini.pairs').setup({}) end)
+later(function() require('mini.pairs').setup() end)
 
 
 -- keymaps
