@@ -24,12 +24,40 @@ now(function()
   require('mini.basics').setup({
     mappings = { windows = true, move_with_alt = true },
     autocommands = { relnum_in_visual_mode = true },
-  }) 
+  })
 end)
 now(function() require('mini.statusline').setup() end)
+-- TODO: Figure out why nvim-lspconfig cannot be lazy loaded or else ls won't start when opening a file directly
+now(function()
+  add('neovim/nvim-lspconfig')
 
+  local lspconfig = require('lspconfig')
+
+  -- lua (with setup for neovim)
+  lspconfig.lua_ls.setup {
+    on_init = function(client)
+      if client.workspace_folders then
+        local path = client.workspace_folders[1].name
+        if vim.uv.fs_stat(path..'/.luarc.json') or vim.uv.fs_stat(path..'/.luarc.jsonc') then
+	  return
+        end
+      end
+      client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+        runtime = { version = 'LuaJIT' },
+        -- Make the server aware of Neovim runtime files
+        workspace = {
+  	  checkThirdParty = false,
+	  library = { vim.env.VIMRUNTIME }
+        }
+      })
+    end,
+    settings = {
+      Lua = {}
+    }
+  }
+end)
 later(function()
-  add({ 
+  add({
     source = 'nvim-treesitter/nvim-treesitter',
     hooks = { post_checkout = function() vim.cmd('TSUpdate') end }
   })
