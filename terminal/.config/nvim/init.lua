@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-set-field
 pcall(function() vim.loader.enable() end)
 
 
@@ -34,7 +35,7 @@ now(function()
   require('mini.notify').setup()
   vim.notify = MiniNotify.make_notify()
 end)
-now(function() 
+now(function()
   require('mini.icons').setup()
   later(MiniIcons.tweak_lsp_kind)
 end)
@@ -69,7 +70,7 @@ now(function()
     on_init = function(client)
       if client.workspace_folders then
         local path = client.workspace_folders[1].name
-        if vim.uv.fs_stat(path..'/.luarc.json') or vim.uv.fs_stat(path..'/.luarc.jsonc') then
+        if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
           return
         end
       end
@@ -99,6 +100,7 @@ later(function()
     source = 'nvim-treesitter/nvim-treesitter',
     hooks = { post_checkout = function() vim.cmd('TSUpdate') end }
   })
+  ---@diagnostic disable-next-line: missing-fields
   require('nvim-treesitter.configs').setup({
     auto_install = true,
     highlight = {
@@ -134,8 +136,14 @@ end)
 later(function() require('mini.pairs').setup() end)
 -- indent lines + ii and ai for text objects
 later(function() require('mini.indentscope').setup() end)
-later(function() require('mini.diff').setup() end)
-later(function() require('mini.git').setup() end)
+later(function()
+  require('mini.diff').setup()
+  vim.keymap.set('n', '<Leader>go', function() MiniDiff.toggle_overlay(0) end, { desc = "Toggle diff overlay" })
+end)
+later(function()
+  require('mini.git').setup()
+  vim.keymap.set({ 'n', 'x' }, '<Leader>gs', MiniGit.show_at_cursor, { desc = 'Show at cursor' })
+end)
 later(function()
   local miniclue = require('mini.clue')
   require('mini.clue').setup({
@@ -193,7 +201,30 @@ later(function()
   })
 end)
 later(function()
-  require('mini.files').setup({ windows = { preview = true }})
+  require('mini.files').setup({ windows = { preview = true } })
+  vim.keymap.set('n', '<Leader>e', function() if not MiniFiles.close() then MiniFiles.open() end end,
+    { desc = "File [E]xplorer" })
+  vim.keymap.set('n', '<Leader>E',
+    function() if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0)) end end,
+    { desc = "Toggle diff overlay" })
+end)
+-- TODO: add ui.select
+later(function()
+  require('mini.pick').setup()
+
+  vim.ui.select = MiniPick.ui_select
+
+  -- add custom picker to pick registry pickers
+  MiniPick.registry.registry = function()
+    local items = vim.tbl_keys(MiniPick.registry)
+    table.sort(items)
+    local source = { items = items, name = 'Registry', choose = function() end }
+    local chosen_picker_name = MiniPick.start({ source = source })
+    if chosen_picker_name == nil then return end
+    return MiniPick.registry[chosen_picker_name]()
+  end
+
+  vim.keymap.set('n', '<C-p>', MiniPick.registry.registry, { desc = 'Pickers' })
 end)
 
 
@@ -218,9 +249,3 @@ _G.cr_action = function()
 end
 
 vim.keymap.set('i', '<CR>', 'v:lua._G.cr_action()', { expr = true })
--- Git
-vim.keymap.set('n', '<Leader>go', function() MiniDiff.toggle_overlay(0) end, { desc = "Toggle diff overlay" })
-vim.keymap.set({ 'n', 'x' }, '<Leader>gs',  '<Cmd>lua MiniGit.show_at_cursor()<CR>', { desc = 'Show at cursor' })
--- Explorer
-vim.keymap.set('n', '<Leader>e', function() if not MiniFiles.close() then MiniFiles.open() end end, { desc = "File [E]xplorer" })
-vim.keymap.set('n', '<Leader>E', function() if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0)) end end, { desc = "Toggle diff overlay" })
