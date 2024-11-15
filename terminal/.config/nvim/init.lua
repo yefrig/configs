@@ -38,6 +38,7 @@ now(function()
   require('mini.icons').setup()
   later(MiniIcons.tweak_lsp_kind)
 end)
+now(function() add('tpope/vim-sleuth') end)
 -- TODO: Figure out why nvim-lspconfig cannot be lazy loaded or else ls won't start when opening a file directly
 now(function()
   add('neovim/nvim-lspconfig')
@@ -55,7 +56,7 @@ now(function()
       if client.workspace_folders then
         local path = client.workspace_folders[1].name
         if vim.uv.fs_stat(path..'/.luarc.json') or vim.uv.fs_stat(path..'/.luarc.jsonc') then
-	  return
+          return
         end
       end
       client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
