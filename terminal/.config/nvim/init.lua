@@ -46,6 +46,20 @@ now(function()
 
   local function custom_on_attach(_, buf_id)
     vim.bo[buf_id].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
+
+    local map = function(keys, func, desc, mode)
+      mode = mode or 'n'
+      vim.keymap.set(mode, keys, func, { buffer = buf_id, desc = 'LSP: ' .. desc })
+    end
+
+    -- gq is already bound to format lines using lsp
+    map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+    map('grr', vim.lsp.buf.references, '[G]oto [R]eferences')
+    map('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
+    map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+    map('gY', vim.lsp.buf.type_definition, '[G]oto T[Y]pe Definition')
+    map('grn', vim.lsp.buf.rename, '[G]oto [R]e[n]ame')
+    map('gra', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
   end
 
   local lspconfig = require('lspconfig')
@@ -168,7 +182,7 @@ later(function()
     },
 
     clues = {
-      { mode = 'n', keys = '<Leader>g', desc = 'Git' },
+      { mode = 'n', keys = '<Leader>g', desc = '[G]it' },
       miniclue.gen_clues.builtin_completion(),
       miniclue.gen_clues.g(),
       miniclue.gen_clues.marks(),
