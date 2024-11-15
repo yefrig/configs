@@ -192,6 +192,9 @@ later(function()
     },
   })
 end)
+later(function()
+  require('mini.files').setup({ windows = { preview = true }})
+end)
 
 
 -- keymaps
@@ -218,3 +221,6 @@ vim.keymap.set('i', '<CR>', 'v:lua._G.cr_action()', { expr = true })
 -- Git
 vim.keymap.set('n', '<Leader>go', function() MiniDiff.toggle_overlay(0) end, { desc = "Toggle diff overlay" })
 vim.keymap.set({ 'n', 'x' }, '<Leader>gs',  '<Cmd>lua MiniGit.show_at_cursor()<CR>', { desc = 'Show at cursor' })
+-- Explorer
+vim.keymap.set('n', '<Leader>e', function() if not MiniFiles.close() then MiniFiles.open() end end, { desc = "File [E]xplorer" })
+vim.keymap.set('n', '<Leader>E', function() if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0)) end end, { desc = "Toggle diff overlay" })
