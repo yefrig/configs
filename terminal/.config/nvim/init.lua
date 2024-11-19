@@ -224,7 +224,7 @@ later(function()
     return MiniPick.registry[chosen_picker_name]()
   end
 
-  vim.keymap.set('n', '<C-p>', MiniPick.registry.registry, { desc = 'Pickers' })
+  vim.keymap.set('n', '<Leader>p', MiniPick.registry.registry, { desc = 'Pickers' })
 end)
 
 
