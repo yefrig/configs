@@ -1,6 +1,6 @@
 return {
-  ["mini.nvim"] = "7b4d5d48b6b5a75009d63f8f3e4ef4819b7e8139",
-  ["nvim-lspconfig"] = "d2d153a179ed59aa7134d7ebdf4d7dcb156efa22",
-  ["nvim-treesitter"] = "6389ceb1758b8f62a15194e3b790e33268304cb8",
+  ["mini.nvim"] = "6714e738555b1cfbef646a23af29aa113f91f4fe",
+  ["nvim-lspconfig"] = "291a8f1a319dc712db85bcc174b0cf406f0a5b69",
+  ["nvim-treesitter"] = "a3a732107f8b529f97bf4921b3e1af5dcc756bb6",
   ["vim-sleuth"] = "be69bff86754b1aa5adcbb527d7fcd1635a84080"
 }

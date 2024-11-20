@@ -226,6 +226,10 @@ later(function()
 
   vim.keymap.set('n', '<Leader>p', MiniPick.registry.registry, { desc = 'Pickers' })
 end)
+later(function()
+  -- ex: change inside next argument (cina)
+  require('mini.ai').setup()
+end)
 
 
 -- keymaps
