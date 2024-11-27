@@ -43,10 +43,15 @@ now(function() add('tpope/vim-sleuth') end)
 -- TODO: Figure out why nvim-lspconfig cannot be lazy loaded or else ls won't start when opening a file directly
 now(function()
   add('neovim/nvim-lspconfig')
+  add({ source = 'saghen/blink.cmp', checkout = 'v0.6.1' })
 
+  require('blink-cmp').setup({
+    keymap = { preset = 'enter' },
+    accept = { auto_brackets = { enabled = true } },
+    trigger = { signature_help = { enabled = true } }
+  })
 
   local function custom_on_attach(_, buf_id)
-    vim.bo[buf_id].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
 
     local map = function(keys, func, desc, mode)
       mode = mode or 'n'
@@ -64,9 +69,11 @@ now(function()
   end
 
   local lspconfig = require('lspconfig')
+  local capabilities = require('blink.cmp').get_lsp_capabilities()
 
   -- lua (with setup for neovim)
   lspconfig.lua_ls.setup {
+    capabilities = capabilities,
     on_init = function(client)
       if client.workspace_folders then
         local path = client.workspace_folders[1].name
@@ -113,23 +120,6 @@ later(function()
     -- indent based on treesitter for = operator
     indent = {
       enable = true
-    }
-  })
-end)
-later(function()
-  require('mini.completion').setup({
-    lsp_completion = {
-      auto_setup = false,
-      source_func = 'omnifunc',
-      process_items = function(items, base)
-        -- Don't show 'Text' and 'Snippet' suggestions
-        items = vim.tbl_filter(function(x) return x.kind ~= 1 and x.kind ~= 15 end, items)
-        return MiniCompletion.default_process_items(items, base)
-      end,
-    },
-    window = {
-      info = { border = 'double' },
-      signature = { border = 'double' }
     }
   })
 end)
@@ -229,29 +219,6 @@ later(function()
   vim.keymap.set('n', '<Leader>p', MiniPick.registry.registry, { desc = 'Pickers' })
 end)
 later(function()
-  -- ex: change inside next argument (cina)
+  -- example: change inside next argument (cina)
   require('mini.ai').setup()
 end)
-
-
--- keymaps
-local keycode = vim.keycode or function(x)
-  return vim.api.nvim_replace_termcodes(x, true, true, true)
-end
-local keys = {
-  ['cr']        = keycode('<CR>'),
-  ['ctrl-y']    = keycode('<C-y>'),
-  ['ctrl-y_cr'] = keycode('<C-y><CR>'),
-}
-_G.cr_action = function()
-  if vim.fn.pumvisible() ~= 0 then
-    -- If popup is visible, confirm selected item or add new line otherwise
-    local item_selected = vim.fn.complete_info()['selected'] ~= -1
-    return item_selected and keys['ctrl-y'] or keys['ctrl-y_cr']
-  else
-    -- If popup is not visible, use plain `<CR>`.
-    return MiniPairs.cr()
-  end
-end
-
-vim.keymap.set('i', '<CR>', 'v:lua._G.cr_action()', { expr = true })
