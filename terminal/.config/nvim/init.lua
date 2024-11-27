@@ -52,6 +52,7 @@ now(function()
   })
 
   local function custom_on_attach(_, buf_id)
+    vim.lsp.inlay_hint.enable(true)
 
     local map = function(keys, func, desc, mode)
       mode = mode or 'n'
@@ -97,7 +98,9 @@ now(function()
       custom_on_attach(client, buf_id)
     end,
     settings = {
-      Lua = {}
+      Lua = {
+        hint = { enable = true }
+      }
     }
   }
 end)
