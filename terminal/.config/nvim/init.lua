@@ -206,10 +206,12 @@ later(function()
     { desc = "File [E]xplorer" })
   vim.keymap.set('n', '<Leader>E',
     function() if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0)) end end,
-    { desc = "Toggle diff overlay" })
+    { desc = "Current File [E]xplorer" })
 end)
 -- TODO: add ui.select
 later(function()
+  -- add more pickers
+  require('mini.extra').setup()
   require('mini.pick').setup()
 
   vim.ui.select = MiniPick.ui_select
