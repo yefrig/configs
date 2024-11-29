@@ -21,7 +21,15 @@ require('mini.deps').setup({ path = { package = path_package } })
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
 
-now(function() vim.cmd('colorscheme randomhue') end)
+now(function()
+  add({ source = "catppuccin/nvim", name = "catppuccin" })
+  require('catppuccin').setup({
+    integrations = {
+      blink_cmp = true
+    }
+  })
+  vim.cmd('colorscheme catppuccin')
+end)
 
 now(function()
   require('mini.basics').setup({
