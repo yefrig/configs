@@ -59,24 +59,6 @@ now(function()
     trigger = { signature_help = { enabled = true } }
   })
 
-  local function custom_on_attach(_, buf_id)
-    vim.lsp.inlay_hint.enable(true)
-
-    local map = function(keys, func, desc, mode)
-      mode = mode or 'n'
-      vim.keymap.set(mode, keys, func, { buffer = buf_id, desc = 'LSP: ' .. desc })
-    end
-
-    -- gq is already bound to format lines using lsp
-    map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-    map('grr', vim.lsp.buf.references, '[G]oto [R]eferences')
-    map('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-    map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-    map('gY', vim.lsp.buf.type_definition, '[G]oto T[Y]pe Definition')
-    map('grn', vim.lsp.buf.rename, '[G]oto [R]e[n]ame')
-    map('gra', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
-  end
-
   local lspconfig = require('lspconfig')
   local capabilities = require('blink.cmp').get_lsp_capabilities()
 
@@ -103,7 +85,7 @@ now(function()
       -- Reduce unnecessarily long list of completion triggers for better `MiniCompletion` experience
       client.server_capabilities.completionProvider.triggerCharacters = { '.', ':' }
 
-      custom_on_attach(client, buf_id)
+      require('lsp_utils').on_attach(client, buf_id)
     end,
     settings = {
       Lua = {
@@ -232,4 +214,7 @@ end)
 later(function()
   -- example: change inside next argument (cina)
   require('mini.ai').setup()
+end)
+later(function()
+  add('mfussenegger/nvim-jdtls')
 end)
