@@ -210,6 +210,9 @@ later(function()
   end
 
   vim.keymap.set('n', '<Leader>p', MiniPick.registry.registry, { desc = 'Pickers' })
+  vim.keymap.set('n', '<Leader><Leader>', MiniPick.builtin.buffers, { desc = 'Pick Buffers' })
+  vim.keymap.set('n', '<Leader>f', MiniPick.builtin.files, { desc = 'Pick Files' })
+  vim.keymap.set('n', '<Leader>/', MiniExtra.pickers.buf_lines, { desc = 'Pick Buffer Lines' })
 end)
 later(function()
   -- example: change inside next argument (cina)
