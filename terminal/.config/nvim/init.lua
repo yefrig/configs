@@ -221,3 +221,17 @@ end)
 later(function()
   add('mfussenegger/nvim-jdtls')
 end)
+later(function()
+  add('mfussenegger/nvim-lint')
+  vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+    group = vim.api.nvim_create_augroup('lint', {}),
+    callback = function()
+      if vim.opt_local.modifiable:get() then
+        -- ft specific
+        require('lint').try_lint()
+        -- for all fts
+        require('lint').try_lint("codespell")
+      end
+    end,
+  })
+end)
