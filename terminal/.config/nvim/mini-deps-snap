@@ -1,8 +1,10 @@
 return {
-  ["blink.cmp"] = "81069e3955a8b4d5063287a2a6a47a844e9ca2cb",
+  ["blink.cmp"] = "777d6fbba5a4099d9182037a4278f70ef395059e",
   catppuccin = "faf15ab0201b564b6368ffa47b56feefc92ce3f4",
-  ["mini.nvim"] = "c8922aef8207137e66c80acdb9523668599ba62a",
-  ["nvim-lspconfig"] = "e869c7e6af0a3c40a2b344a9765779d74dd12720",
-  ["nvim-treesitter"] = "427a90ae70f66c2fdf2d9ad16a0f08e9697d90d9",
+  ["mini.nvim"] = "690a3b4c78c4956f7ecf770124b522d32084b872",
+  ["nvim-jdtls"] = "ece818f909c6414cbad4e1fb240d87e003e10fda",
+  ["nvim-lint"] = "6b46370d02cd001509a765591a3ffc481b538794",
+  ["nvim-lspconfig"] = "6e385d2fe5da6714f00142afbd8d3591d330ffd7",
+  ["nvim-treesitter"] = "0aaf146590f3edd1dfa64fbfa2ad1cdca65afa6f",
   ["vim-sleuth"] = "be69bff86754b1aa5adcbb527d7fcd1635a84080"
 }

@@ -51,12 +51,14 @@ now(function() add('tpope/vim-sleuth') end)
 -- TODO: Figure out why nvim-lspconfig cannot be lazy loaded or else ls won't start when opening a file directly
 now(function()
   add('neovim/nvim-lspconfig')
-  add({ source = 'saghen/blink.cmp', checkout = 'v0.6.1' })
+  add({ source = 'saghen/blink.cmp', checkout = 'v0.7.3' })
 
   require('blink-cmp').setup({
     keymap = { preset = 'enter' },
     accept = { auto_brackets = { enabled = true } },
-    trigger = { signature_help = { enabled = true } }
+    trigger = { signature_help = { enabled = true } },
+    ---@diagnostic disable-next-line: missing-fields
+    completion = { menu = { draw = { treesitter = true } } }
   })
 
   local lspconfig = require('lspconfig')
