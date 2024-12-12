@@ -52,6 +52,16 @@ now(function() add('tpope/vim-sleuth') end)
 now(function()
   add('neovim/nvim-lspconfig')
   add({ source = 'saghen/blink.cmp', checkout = 'v0.7.3' })
+  add('ibhagwan/fzf-lua')
+
+  local fzf = require('fzf-lua')
+  vim.keymap.set('n', '<Leader>p', fzf.builtin, { desc = 'Builtin lists' })
+  vim.keymap.set('n', '<Leader><Leader>', fzf.buffers, { desc = 'List Buffers' })
+  vim.keymap.set('n', '<Leader>f', fzf.files, { desc = 'List [F]iles' })
+  vim.keymap.set('n', '<Leader>/', fzf.grep_curbuf, { desc = 'Search current buffer lines' })
+  vim.keymap.set('n', '<Leader>c', fzf.grep_cword, { desc = 'Search word under [C]ursor' })
+  vim.keymap.set('n', '<Leader>l', fzf.live_grep, { desc = '[L]ive grep project' })
+
 
   require('blink-cmp').setup({
     keymap = { preset = 'enter' },
@@ -192,29 +202,6 @@ later(function()
   vim.keymap.set('n', '<Leader>E',
     function() if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0)) end end,
     { desc = "Current File [E]xplorer" })
-end)
--- TODO: add ui.select
-later(function()
-  -- add more pickers
-  require('mini.extra').setup()
-  require('mini.pick').setup()
-
-  vim.ui.select = MiniPick.ui_select
-
-  -- add custom picker to pick registry pickers
-  MiniPick.registry.registry = function()
-    local items = vim.tbl_keys(MiniPick.registry)
-    table.sort(items)
-    local source = { items = items, name = 'Registry', choose = function() end }
-    local chosen_picker_name = MiniPick.start({ source = source })
-    if chosen_picker_name == nil then return end
-    return MiniPick.registry[chosen_picker_name]()
-  end
-
-  vim.keymap.set('n', '<Leader>p', MiniPick.registry.registry, { desc = 'Pickers' })
-  vim.keymap.set('n', '<Leader><Leader>', MiniPick.builtin.buffers, { desc = 'Pick Buffers' })
-  vim.keymap.set('n', '<Leader>f', MiniPick.builtin.files, { desc = 'Pick Files' })
-  vim.keymap.set('n', '<Leader>/', MiniExtra.pickers.buf_lines, { desc = 'Pick Buffer Lines' })
 end)
 later(function()
   -- example: change inside next argument (cina)

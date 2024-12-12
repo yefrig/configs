@@ -1,6 +1,7 @@
 return {
   ["blink.cmp"] = "777d6fbba5a4099d9182037a4278f70ef395059e",
   catppuccin = "faf15ab0201b564b6368ffa47b56feefc92ce3f4",
+  ["fzf-lua"] = "b7e4d478d0ba4cb8495a7b249fe53cf4613072cf",
   ["mini.nvim"] = "690a3b4c78c4956f7ecf770124b522d32084b872",
   ["nvim-jdtls"] = "ece818f909c6414cbad4e1fb240d87e003e10fda",
   ["nvim-lint"] = "6b46370d02cd001509a765591a3ffc481b538794",
