@@ -1,233 +1,172 @@
 ---@diagnostic disable: duplicate-set-field
 pcall(function() vim.loader.enable() end)
 
-
--- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
-local path_package = vim.fn.stdpath('data') .. '/site/'
-local mini_path = path_package .. 'pack/deps/start/mini.nvim'
-if not vim.loop.fs_stat(mini_path) then
-  vim.cmd('echo "Installing `mini.nvim`" | redraw')
-  local clone_cmd = {
-    'git', 'clone', '--filter=blob:none',
-    'https://github.com/echasnovski/mini.nvim', mini_path
-  }
-  vim.fn.system(clone_cmd)
-  vim.cmd('packadd mini.nvim | helptags ALL')
-  vim.cmd('echo "Installed `mini.nvim`" | redraw')
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out,                            "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
+vim.opt.rtp:prepend(lazypath)
 
-require('mini.deps').setup({ path = { package = path_package } })
+vim.g.mapleader = ' '
 
-local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
-
-
-now(function()
-  add({ source = "catppuccin/nvim", name = "catppuccin" })
-  require('catppuccin').setup({
-    integrations = {
-      blink_cmp = true
-    }
-  })
-  vim.cmd('colorscheme catppuccin')
-end)
-
-now(function()
-  require('mini.basics').setup({
-    options = { extra_ui = true },
-    mappings = { windows = true, move_with_alt = true },
-    autocommands = { relnum_in_visual_mode = true },
-  })
-end)
-now(function() require('mini.statusline').setup() end)
-now(function()
-  require('mini.notify').setup()
-  vim.notify = MiniNotify.make_notify()
-end)
-now(function()
-  require('mini.icons').setup()
-  later(MiniIcons.tweak_lsp_kind)
-end)
-now(function() add('tpope/vim-sleuth') end)
--- TODO: Figure out why nvim-lspconfig cannot be lazy loaded or else ls won't start when opening a file directly
-now(function()
-  add('neovim/nvim-lspconfig')
-  add({ source = 'saghen/blink.cmp', checkout = 'v0.7.3' })
-  add('ibhagwan/fzf-lua')
-
-  local fzf = require('fzf-lua')
-
-  fzf.register_ui_select()
-
-  vim.keymap.set('n', '<Leader>p', fzf.builtin, { desc = 'Builtin lists' })
-  vim.keymap.set('n', '<Leader><Leader>', fzf.buffers, { desc = 'List Buffers' })
-  vim.keymap.set('n', '<Leader>f', fzf.files, { desc = 'List [F]iles' })
-  vim.keymap.set('n', '<Leader>/', fzf.grep_curbuf, { desc = 'Search current buffer lines' })
-  vim.keymap.set('n', '<Leader>c', fzf.grep_cword, { desc = 'Search word under [C]ursor' })
-  vim.keymap.set('n', '<Leader>l', fzf.live_grep, { desc = '[L]ive grep project' })
-
-
-  require('blink-cmp').setup({
-    keymap = { preset = 'enter' },
-    accept = { auto_brackets = { enabled = true } },
-    trigger = { signature_help = { enabled = true } },
-    ---@diagnostic disable-next-line: missing-fields
-    completion = { menu = { draw = { treesitter = true } } }
-  })
-
-  local lspconfig = require('lspconfig')
-  local capabilities = require('blink.cmp').get_lsp_capabilities()
-
-  -- lua (with setup for neovim)
-  lspconfig.lua_ls.setup {
-    capabilities = capabilities,
-    on_init = function(client)
-      if client.workspace_folders then
-        local path = client.workspace_folders[1].name
-        if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
-          return
-        end
+require("lazy").setup({
+  spec = {
+    {
+      'catppuccin/nvim',
+      name = 'catppuccin',
+      priority = 1000,
+      opts = { integrations = { blink_cmp = true } },
+      init = function()
+        vim.cmd('colorscheme catppuccin')
       end
-      client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-        runtime = { version = 'LuaJIT' },
-        -- Make the server aware of Neovim runtime files
-        workspace = {
-          checkThirdParty = false,
-          library = vim.api.nvim_get_runtime_file("", true)
-        }
-      })
-    end,
-    on_attach = function(client, buf_id)
-      -- Reduce unnecessarily long list of completion triggers for better `MiniCompletion` experience
-      client.server_capabilities.completionProvider.triggerCharacters = { '.', ':' }
-
-      require('lsp_utils').on_attach(client, buf_id)
-    end,
-    settings = {
-      Lua = {
-        hint = { enable = true }
+    },
+    {
+      'echasnovski/mini.basics',
+      opts = {
+        options = { extra_ui = true },
+        mappings = { windows = true, move_with_alt = true },
+        autocommands = { relnum_in_visual_mode = true },
       }
-    }
-  }
-end)
-
-later(function()
-  add({
-    source = 'nvim-treesitter/nvim-treesitter',
-    hooks = { post_checkout = function() vim.cmd('TSUpdate') end }
-  })
-  ---@diagnostic disable-next-line: missing-fields
-  require('nvim-treesitter.configs').setup({
-    auto_install = true,
-    highlight = {
-      enable = true
     },
-    -- TODO: update keybinds for selection
-    incremental_selection = {
-      enable = true,
+    { 'echasnovski/mini.icons',      opts = {} },
+    -- Test this out. might want something similar to vscode
+    { 'echasnovski/mini.statusline', opts = {} },
+    { 'lewis6991/gitsigns.nvim',     opts = {} },
+    -- Detect tabstop and shiftwidth automatically
+    { 'tpope/vim-sleuth' },
+    {
+      'nvim-treesitter/nvim-treesitter',
+      main = 'nvim-treesitter.configs',
+      opts = {
+        auto_install = true,
+        highlight = {
+          enable = true
+        },
+        -- TODO: update keybinds for selection
+        incremental_selection = {
+          enable = true,
+        },
+        -- indent based on treesitter for = operator
+        indent = {
+          enable = true
+        }
+      }
     },
-    -- indent based on treesitter for = operator
-    indent = {
-      enable = true
-    }
-  })
-end)
-later(function() require('mini.pairs').setup() end)
--- indent lines + ii and ai for text objects
-later(function() require('mini.indentscope').setup() end)
-later(function()
-  require('mini.diff').setup()
-  vim.keymap.set('n', '<Leader>go', function() MiniDiff.toggle_overlay(0) end, { desc = "Toggle diff overlay" })
-end)
-later(function()
-  require('mini.git').setup()
-  vim.keymap.set({ 'n', 'x' }, '<Leader>gs', MiniGit.show_at_cursor, { desc = 'Show at cursor' })
-end)
-later(function()
-  local miniclue = require('mini.clue')
-  require('mini.clue').setup({
-    triggers = {
-      -- Leader triggers
-      { mode = 'n', keys = '<Leader>' },
-      { mode = 'x', keys = '<Leader>' },
+    {
+      'neovim/nvim-lspconfig',
+      dependencies = {
+        {
+          'saghen/blink.cmp',
+          version = 'v0.*',
+          opts = {
+            keymap = { preset = 'enter' },
+            accept = { auto_brackets = { enabled = true } },
+            trigger = { signature_help = { enabled = true } },
+            ---@diagnostic disable-next-line: missing-fields
+            completion = { menu = { draw = { treesitter = true } } }
+          }
+        },
+        {
+          'ibhagwan/fzf-lua',
+          lazy = true,
+          config = function()
+            local fzf = require('fzf-lua')
 
-      -- Built-in completion
-      { mode = 'i', keys = '<C-x>' },
+            fzf.setup({})
+            fzf.register_ui_select()
 
+            vim.keymap.set('n', '<Leader>p', fzf.builtin, { desc = 'Builtin lists' })
+            vim.keymap.set('n', '<Leader><Leader>', fzf.buffers, { desc = 'List Buffers' })
+            vim.keymap.set('n', '<Leader>f', fzf.files, { desc = 'List [F]iles' })
+            vim.keymap.set('n', '<Leader>/', fzf.grep_curbuf, { desc = 'Search current buffer lines' })
+            vim.keymap.set('n', '<Leader>c', fzf.grep_cword, { desc = 'Search word under [C]ursor' })
+            vim.keymap.set('n', '<Leader>l', fzf.live_grep, { desc = '[L]ive grep project' })
+          end
+        },
+      },
+      config = function()
+        local lspconfig = require('lspconfig')
+        local capabilities = require('blink.cmp').get_lsp_capabilities()
 
-      -- mini.basics
-      { mode = 'n', keys = [[\]] },
+        lspconfig.lua_ls.setup {
+          capabilities = capabilities,
+          on_attach = function(client, buf_id)
+            -- Reduce unnecessarily long list of completion triggers for better completion experience
+            client.server_capabilities.completionProvider.triggerCharacters = { '.', ':' }
 
-      -- mini.bracketed
-      { mode = 'n', keys = '[' },
-      { mode = 'n', keys = ']' },
-      { mode = 'x', keys = '[' },
-      { mode = 'x', keys = ']' },
-
-      -- `g` key
-      { mode = 'n', keys = 'g' },
-      { mode = 'x', keys = 'g' },
-
-      -- Marks
-      { mode = 'n', keys = "'" },
-      { mode = 'n', keys = '`' },
-      { mode = 'x', keys = "'" },
-      { mode = 'x', keys = '`' },
-
-      -- Registers
-      { mode = 'n', keys = '"' },
-      { mode = 'x', keys = '"' },
-      { mode = 'i', keys = '<C-r>' },
-      { mode = 'c', keys = '<C-r>' },
-
-      -- Window commands
-      { mode = 'n', keys = '<C-w>' },
-
-      -- `z` key
-      { mode = 'n', keys = 'z' },
-      { mode = 'x', keys = 'z' },
+            require('lsp_utils').on_attach(client, buf_id)
+          end,
+          settings = {
+            Lua = {
+              hint = { enable = true }
+            }
+          }
+        }
+      end,
     },
-
-    clues = {
-      { mode = 'n', keys = '<Leader>g', desc = '[G]it' },
-      miniclue.gen_clues.builtin_completion(),
-      miniclue.gen_clues.g(),
-      miniclue.gen_clues.marks(),
-      miniclue.gen_clues.registers(),
-      miniclue.gen_clues.windows(),
-      miniclue.gen_clues.z(),
-    },
-  })
-end)
-later(function()
-  require('mini.files').setup({ windows = { preview = true } })
-  vim.keymap.set('n', '<Leader>e', function() if not MiniFiles.close() then MiniFiles.open() end end,
-    { desc = "File [E]xplorer" })
-  vim.keymap.set('n', '<Leader>E',
-    function() if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0)) end end,
-    { desc = "Current File [E]xplorer" })
-end)
-later(function()
-  -- example: change inside next argument (cina)
-  require('mini.ai').setup()
-end)
-later(function()
-  require('mini.bufremove').setup()
-  vim.keymap.set('n', '<Leader>bd', MiniBufremove.delete, { desc = "[D]elete [B]uffer" })
-end)
-later(function()
-  add('mfussenegger/nvim-jdtls')
-end)
-later(function()
-  add('mfussenegger/nvim-lint')
-  vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-    group = vim.api.nvim_create_augroup('lint', {}),
-    callback = function()
-      if vim.opt_local.modifiable:get() then
-        -- ft specific
-        require('lint').try_lint()
-        -- for all fts
-        require('lint').try_lint("codespell")
+    {
+      'echasnovski/mini.notify',
+      -- lazy after initial ui
+      event = 'VeryLazy',
+      config = function()
+        require('mini.notify').setup()
+        vim.notify = MiniNotify.make_notify()
       end
-    end,
-  })
-end)
+    },
+    -- indent lines + ii and ai for text objects
+    { 'echasnovski/mini.indentscope', opts = {} },
+    {
+      'echasnovski/mini.files',
+      config = function()
+        require('mini.files').setup()
+        vim.keymap.set('n', '<Leader>e', function() if not MiniFiles.close() then MiniFiles.open() end end,
+          { desc = "File [E]xplorer" })
+        vim.keymap.set('n', '<Leader>E',
+          function() if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0)) end end,
+          { desc = "Current File [E]xplorer" })
+      end
+    },
+    -- example: change inside next argument (cina)
+    { 'echasnovski/mini.ai',          event = 'VeryLazy', opts = {} },
+    {
+      'echasnovski/mini.bufremove',
+      event = 'VeryLazy',
+      config = function()
+        require('mini.bufremove').setup()
+        vim.keymap.set('n', '<Leader>bd', MiniBufremove.delete, { desc = "[D]elete [B]uffer" })
+      end
+    },
+    -- configure LuaLS for editing neovim config
+    { 'folke/lazydev.nvim',      ft = 'lua', opts = {} },
+    { 'mfussenegger/nvim-jdtls', ft = 'java' },
+    {
+      'mfussenegger/nvim-lint',
+      config = function()
+        local lint = require('lint')
+        vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+          group = vim.api.nvim_create_augroup('lint', {}),
+          callback = function()
+            if vim.opt_local.modifiable:get() then
+              -- ft specific
+              lint.try_lint()
+              -- for all fts
+              lint.try_lint("codespell")
+            end
+          end,
+        })
+      end
+    }
+  },
+  checker = { enabled = true, notify = false },
+})
