@@ -115,6 +115,26 @@ require("lazy").setup({
         }
       end,
     },
+    -- configure LuaLS for editing neovim config
+    { 'folke/lazydev.nvim',      ft = 'lua', opts = {} },
+    { 'mfussenegger/nvim-jdtls', ft = 'java' },
+    {
+      'mfussenegger/nvim-lint',
+      config = function()
+        local lint = require('lint')
+        vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+          group = vim.api.nvim_create_augroup('lint', {}),
+          callback = function()
+            if vim.opt_local.modifiable:get() then
+              -- ft specific
+              lint.try_lint()
+              -- for all fts
+              lint.try_lint("codespell")
+            end
+          end,
+        })
+      end
+    },
     {
       'echasnovski/mini.notify',
       -- lazy after initial ui
@@ -144,29 +164,10 @@ require("lazy").setup({
       event = 'VeryLazy',
       config = function()
         require('mini.bufremove').setup()
-        vim.keymap.set('n', '<Leader>bd', MiniBufremove.delete, { desc = "[D]elete [B]uffer" })
+        vim.keymap.set('n', '<Leader>d', MiniBufremove.delete, { desc = "[D]elete [B]uffer" })
       end
     },
-    -- configure LuaLS for editing neovim config
-    { 'folke/lazydev.nvim',      ft = 'lua', opts = {} },
-    { 'mfussenegger/nvim-jdtls', ft = 'java' },
-    {
-      'mfussenegger/nvim-lint',
-      config = function()
-        local lint = require('lint')
-        vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-          group = vim.api.nvim_create_augroup('lint', {}),
-          callback = function()
-            if vim.opt_local.modifiable:get() then
-              -- ft specific
-              lint.try_lint()
-              -- for all fts
-              lint.try_lint("codespell")
-            end
-          end,
-        })
-      end
-    }
+    { 'folke/which-key.nvim', event = 'VeryLazy', opts = { preset = 'helix' } },
   },
   checker = { enabled = true, notify = false },
 })
