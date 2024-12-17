@@ -1,4 +1,4 @@
----@diagnostic disable: duplicate-set-field
+---@diagnostic disable: duplicate-set-field, missing-fields
 pcall(function() vim.loader.enable() end)
 
 -- Bootstrap lazy.nvim
@@ -69,12 +69,12 @@ require("lazy").setup({
         {
           'saghen/blink.cmp',
           version = 'v0.*',
+          ---@module 'blink.cmp'
+          ---@type blink.cmp.Config
           opts = {
             keymap = { preset = 'enter' },
-            accept = { auto_brackets = { enabled = true } },
-            trigger = { signature_help = { enabled = true } },
-            ---@diagnostic disable-next-line: missing-fields
-            completion = { menu = { draw = { treesitter = true } } }
+            completion = { accept = { auto_brackets = { enabled = true } }, menu = { draw = { treesitter = true } } },
+            signature = { enabled = true },
           }
         },
         {
@@ -109,7 +109,7 @@ require("lazy").setup({
           end,
           settings = {
             Lua = {
-              hint = { enable = true }
+              hint = { enable = true, arrayIndex = "Disable" }
             }
           }
         }
