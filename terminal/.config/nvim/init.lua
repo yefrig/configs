@@ -159,6 +159,7 @@ require("lazy").setup({
     },
     -- example: change inside next argument (cina)
     { 'echasnovski/mini.ai',          event = 'VeryLazy', opts = {} },
+    { 'echasnovski/mini.pairs',          event = 'VeryLazy', opts = {} },
     {
       'echasnovski/mini.bufremove',
       event = 'VeryLazy',
