@@ -25,7 +25,8 @@ require("lazy").setup({
     {
       'folke/tokyonight.nvim',
       priority = 1000,
-      opts = { style = "night" },
+      -- update word highlight to be less distracting
+      opts = { style = "night", on_highlights = function(hl, c) hl.LspReferenceRead = { bg = c.bg_highlight } end },
       init = function()
         vim.cmd('colorscheme tokyonight')
       end
