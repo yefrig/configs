@@ -23,12 +23,11 @@ vim.g.mapleader = ' '
 require("lazy").setup({
   spec = {
     {
-      'catppuccin/nvim',
-      name = 'catppuccin',
+      'folke/tokyonight.nvim',
       priority = 1000,
-      opts = { integrations = { blink_cmp = true } },
+      opts = { style = "night" },
       init = function()
-        vim.cmd('colorscheme catppuccin')
+        vim.cmd('colorscheme tokyonight')
       end
     },
     {
