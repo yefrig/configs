@@ -73,8 +73,9 @@ require("lazy").setup({
           ---@type blink.cmp.Config
           opts = {
             keymap = { preset = 'enter' },
-            completion = { accept = { auto_brackets = { enabled = true } }, menu = { draw = { treesitter = true } } },
+            completion = { documentation = { auto_show = true }, menu = { draw = { treesitter = { 'lsp' } } } },
             signature = { enabled = true },
+            sources = { cmdline = {} }
           }
         },
         {
