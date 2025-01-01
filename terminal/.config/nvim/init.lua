@@ -34,7 +34,6 @@ require("lazy").setup({
     {
       'echasnovski/mini.basics',
       opts = {
-        options = { extra_ui = true },
         mappings = { windows = true, move_with_alt = true },
         autocommands = { relnum_in_visual_mode = true },
       }
@@ -117,7 +116,7 @@ require("lazy").setup({
       end,
     },
     -- configure LuaLS for editing neovim config
-    { 'folke/lazydev.nvim',      ft = 'lua', opts = {} },
+    { 'folke/lazydev.nvim',      ft = 'lua', opts = { library = { "snacks.nvim" } } },
     { 'mfussenegger/nvim-jdtls', ft = 'java' },
     {
       'mfussenegger/nvim-lint',
