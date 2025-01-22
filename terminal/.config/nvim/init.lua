@@ -160,6 +160,8 @@ require("lazy").setup({
     -- example: change inside next argument (cina)
     { 'echasnovski/mini.ai',          event = 'VeryLazy', opts = {} },
     { 'echasnovski/mini.pairs',       event = 'VeryLazy', opts = {} },
+    -- <M-(hjkl)> to move lines in N and V
+    { "echasnovski/mini.move",        event = 'VeryLazy', opts = {} },
     {
       'folke/snacks.nvim',
       priority = 1000,
