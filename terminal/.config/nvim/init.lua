@@ -166,7 +166,7 @@ require("lazy").setup({
       'folke/snacks.nvim',
       priority = 1000,
       lazy = false,
-      opts = { input = { enabled = true }, words = { enabled = true } },
+      opts = { input = { enabled = true }, words = { enabled = true }, dashboard = { example = "advanced" }, statuscolumn = { enabled = true }, },
       keys = {
         { '<Leader>d', function() Snacks.bufdelete() end,               desc = "Delete Buffer" },
         { "]]",        function() Snacks.words.jump(vim.v.count1) end,  desc = "Next Reference", mode = { "n", "t" } },
