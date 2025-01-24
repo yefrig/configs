@@ -55,6 +55,12 @@ require("lazy").setup({
         -- TODO: update keybinds for selection
         incremental_selection = {
           enable = true,
+          keymaps = {
+            init_selection = '<cr>',
+            node_incremental = '<cr>',
+            scope_incremental = false,
+            node_decremental = '<bs>',
+          }
         },
         -- indent based on treesitter for = operator
         indent = {
@@ -76,24 +82,7 @@ require("lazy").setup({
             signature = { enabled = true },
             sources = { cmdline = {} }
           }
-        },
-        {
-          'ibhagwan/fzf-lua',
-          lazy = true,
-          config = function()
-            local fzf = require('fzf-lua')
-
-            fzf.setup({})
-            fzf.register_ui_select()
-
-            vim.keymap.set('n', '<Leader>p', fzf.builtin, { desc = 'Builtin lists' })
-            vim.keymap.set('n', '<Leader><Leader>', fzf.buffers, { desc = 'List Buffers' })
-            vim.keymap.set('n', '<Leader>f', fzf.files, { desc = 'List [F]iles' })
-            vim.keymap.set('n', '<Leader>/', fzf.grep_curbuf, { desc = 'Search current buffer lines' })
-            vim.keymap.set('n', '<Leader>c', fzf.grep_cword, { desc = 'Search word under [C]ursor' })
-            vim.keymap.set('n', '<Leader>l', fzf.live_grep, { desc = '[L]ive grep project' })
-          end
-        },
+        }
       },
       config = function()
         local lspconfig = require('lspconfig')
@@ -166,11 +155,36 @@ require("lazy").setup({
       'folke/snacks.nvim',
       priority = 1000,
       lazy = false,
-      opts = { input = { enabled = true }, words = { enabled = true }, dashboard = { example = "advanced" }, statuscolumn = { enabled = true }, },
+      opts = {
+        input = {},
+        words = {},
+        dashboard = { example = "advanced" },
+        statuscolumn = {},
+        picker = {}
+      },
       keys = {
-        { '<Leader>d', function() Snacks.bufdelete() end,               desc = "Delete Buffer" },
-        { "]]",        function() Snacks.words.jump(vim.v.count1) end,  desc = "Next Reference", mode = { "n", "t" } },
-        { "[[",        function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
+        { '<Leader>d',        function() Snacks.bufdelete() end,                   desc = "Delete Buffer" },
+        { "]]",               function() Snacks.words.jump(vim.v.count1) end,      desc = "Next Reference",          mode = { "n", "t" } },
+        { "[[",               function() Snacks.words.jump(-vim.v.count1) end,     desc = "Prev Reference",          mode = { "n", "t" } },
+        { "<M-p>",            function() Snacks.picker.smart() end,                desc = "Smart files picker" },
+        { "<M-P>",            function() Snacks.picker.pickers() end,              desc = "Pickers" },
+        { "<Leader><Leader>", function() Snacks.picker.buffers() end,              desc = "Buffers" },
+        { "<Leader>f",        function() Snacks.picker.files() end,                desc = "Files" },
+        { "<Leader>g",        function() Snacks.picker.git_diff() end,             desc = "Git diff files" },
+        { "<Leader>/",        function() Snacks.picker.lines() end,                desc = "Search buffer lines" },
+        { "<Leader>c",        function() Snacks.picker.grep_word() end,            desc = "Search word under cursor" },
+        { "<Leader>l",        function() Snacks.picker.grep() end,                 desc = "Live grep project" },
+        -- These could be inside lsp on_attach function but it's simpler to have them here
+        -- gq is already bound to format lines using lsp
+        { "gd",               function() Snacks.picker.lsp_definitions() end,      desc = "Goto Definition" },
+        { "gD",               function() Snacks.picker.lsp_declarations() end,     desc = "Goto Declarations" },
+        { "gY",               function() Snacks.picker.lsp_type_definitions() end, desc = "Goto Type Definitions" },
+        -- TODO: remove these once they become defaults in nvim 0.11
+        { "grn",              vim.lsp.buf.rename,                                  desc = "Rename References" },
+        { "gra",              vim.lsp.buf.code_action,                             desc = "Code Actions",            mode = { "n", "x" } },
+        { "grr",              function() Snacks.picker.lsp_references() end,       desc = "Goto References" },
+        { "gri",              function() Snacks.picker.lsp_implementations() end,  desc = "Goto Implementations" },
+        { "gO",               function() Snacks.picker.lsp_symbols() end,          desc = "Goto LSP Symbols" },
       }
     },
     { 'folke/which-key.nvim', event = 'VeryLazy', opts = { preset = 'helix' } },
