@@ -28,7 +28,22 @@ require("lazy").setup({
       -- update word highlight to be less distracting
       opts = { style = "night", on_highlights = function(hl, c) hl.LspReferenceRead = { bg = c.bg_highlight } end },
       init = function()
-        vim.cmd('colorscheme tokyonight')
+        -- vim.cmd('colorscheme tokyonight')
+      end
+    },
+    {
+      'rose-pine/neovim',
+      name = 'rose-pine',
+      opts = {
+        highlight_groups = {
+          -- Avoid overriding fg highlight from other sources (kind, treesitter) by adding a background instead
+          BlinkCmpMenuSelection = { bg = "overlay" },
+          -- Needed for java to look decent
+          ["@lsp.type.modifier.java"] = { link = "@keyword" }
+        }
+      },
+      init = function()
+        vim.cmd('colorscheme rose-pine')
       end
     },
     {
@@ -72,7 +87,7 @@ require("lazy").setup({
       'neovim/nvim-lspconfig',
       dependencies = {
         {
-          'saghen/blink.cmp',
+          'yefrig/blink.cmp',
           version = 'v0.*',
           ---@module 'blink.cmp'
           ---@type blink.cmp.Config

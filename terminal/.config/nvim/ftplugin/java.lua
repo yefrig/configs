@@ -10,7 +10,7 @@ local config = {
   on_attach = require('lsp_utils').on_attach,
   cmd = {
     -- point to jdtls installation
-    vim.fn.expand "~/projects/jdt-language-server-1.42.0-202411281516/bin/jdtls",
+    vim.fn.expand "~/projects/jdt/bin/jdtls",
     "-configuration",
     vim.fn.expand "~/.cache/jdtls",
     "-data",
