@@ -67,7 +67,6 @@ require("lazy").setup({
         highlight = {
           enable = true
         },
-        -- TODO: update keybinds for selection
         incremental_selection = {
           enable = true,
           keymaps = {
@@ -194,12 +193,6 @@ require("lazy").setup({
         { "gd",               function() Snacks.picker.lsp_definitions() end,      desc = "Goto Definition" },
         { "gD",               function() Snacks.picker.lsp_declarations() end,     desc = "Goto Declarations" },
         { "gY",               function() Snacks.picker.lsp_type_definitions() end, desc = "Goto Type Definitions" },
-        -- TODO: remove these once they become defaults in nvim 0.11
-        { "grn",              vim.lsp.buf.rename,                                  desc = "Rename References" },
-        { "gra",              vim.lsp.buf.code_action,                             desc = "Code Actions",            mode = { "n", "x" } },
-        { "grr",              function() Snacks.picker.lsp_references() end,       desc = "Goto References" },
-        { "gri",              function() Snacks.picker.lsp_implementations() end,  desc = "Goto Implementations" },
-        { "gO",               function() Snacks.picker.lsp_symbols() end,          desc = "Goto LSP Symbols" },
       }
     },
     { 'folke/which-key.nvim', event = 'VeryLazy', opts = { preset = 'helix' } },
