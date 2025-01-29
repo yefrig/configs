@@ -20,6 +20,8 @@ vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = ' '
 
+vim.keymap.set({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and clear hlsearch' })
+
 require("lazy").setup({
   spec = {
     {
