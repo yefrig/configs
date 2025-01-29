@@ -5,6 +5,7 @@ vim.fn.mkdir(workspace_dir, "p")
 local cpm_capabilities = require('blink.cmp').get_lsp_capabilities()
 local root_dir = vim.fs.root(0, {".git", "mvnw", "gradlew"})
 
+local jdtls = require('jdtls')
 local config = {
   capabilities = cpm_capabilities,
   on_attach = require('lsp_utils').on_attach,
@@ -16,6 +17,7 @@ local config = {
     "-data",
     workspace_dir,
   },
+  init_options = { extendedClientCapabilities = jdtls.extendedClientCapabilities },
   root_dir = root_dir,
   settings = {
     java = {
@@ -45,4 +47,4 @@ local config = {
   filetypes = { "java" },
 }
 
-require('jdtls').start_or_attach(config)
+jdtls.start_or_attach(config)
