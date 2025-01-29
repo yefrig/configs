@@ -57,6 +57,7 @@ require("lazy").setup({
     -- Test this out. might want something similar to vscode
     { 'echasnovski/mini.statusline', opts = {} },
     { 'lewis6991/gitsigns.nvim',     opts = {} },
+    { 'sindrets/diffview.nvim',      opts = {}, cmd = { 'DiffviewOpen', 'DiffviewFileHistory' } },
     -- Detect tabstop and shiftwidth automatically
     { 'tpope/vim-sleuth' },
     {
@@ -185,7 +186,6 @@ require("lazy").setup({
         { "<M-P>",            function() Snacks.picker.pickers() end,              desc = "Pickers" },
         { "<Leader><Leader>", function() Snacks.picker.buffers() end,              desc = "Buffers" },
         { "<Leader>f",        function() Snacks.picker.files() end,                desc = "Files" },
-        { "<Leader>g",        function() Snacks.picker.git_diff() end,             desc = "Git diff files" },
         { "<Leader>/",        function() Snacks.picker.lines() end,                desc = "Search buffer lines" },
         { "<Leader>c",        function() Snacks.picker.grep_word() end,            desc = "Search word under cursor" },
         { "<Leader>l",        function() Snacks.picker.grep() end,                 desc = "Live grep project" },
