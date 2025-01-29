@@ -173,7 +173,7 @@ require("lazy").setup({
       opts = {
         input = {},
         words = {},
-        dashboard = { example = "advanced" },
+        dashboard = { example = "compact_files" },
         statuscolumn = {},
         picker = {}
       },
