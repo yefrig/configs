@@ -57,7 +57,7 @@ require("lazy").setup({
     },
     { 'echasnovski/mini.icons',      opts = {} },
     -- Test this out. might want something similar to vscode
-    { 'echasnovski/mini.statusline', opts = {} },
+    { 'nvim-lualine/lualine.nvim',   opts = {} },
     { 'lewis6991/gitsigns.nvim',     opts = {} },
     { 'sindrets/diffview.nvim',      opts = {}, cmd = { 'DiffviewOpen', 'DiffviewFileHistory' } },
     -- Detect tabstop and shiftwidth automatically
