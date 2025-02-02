@@ -153,17 +153,6 @@ require("lazy").setup({
     },
     -- indent lines + ii and ai for text objects
     { 'echasnovski/mini.indentscope', opts = {} },
-    {
-      'echasnovski/mini.files',
-      config = function()
-        require('mini.files').setup()
-        vim.keymap.set('n', '<Leader>e', function() if not MiniFiles.close() then MiniFiles.open() end end,
-          { desc = "File [E]xplorer" })
-        vim.keymap.set('n', '<Leader>E',
-          function() if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0)) end end,
-          { desc = "Current File [E]xplorer" })
-      end
-    },
     -- example: change inside next argument (cina)
     { 'echasnovski/mini.ai',          event = 'VeryLazy', opts = {} },
     { 'echasnovski/mini.pairs',       event = 'VeryLazy', opts = {} },
@@ -178,30 +167,33 @@ require("lazy").setup({
         words = {},
         dashboard = { example = "compact_files" },
         statuscolumn = {},
-        picker = {}
+        picker = {},
+        explorer = {}
       },
       keys = {
-        { '<Leader>d',        function() Snacks.bufdelete() end,                   desc = "Delete Buffer" },
-        { "]]",               function() Snacks.words.jump(vim.v.count1) end,      desc = "Next Reference",          mode = { "n", "t" } },
-        { "[[",               function() Snacks.words.jump(-vim.v.count1) end,     desc = "Prev Reference",          mode = { "n", "t" } },
-        { "<M-p>",            function() Snacks.picker.smart() end,                desc = "Smart files picker" },
-        { "<M-P>",            function() Snacks.picker.pickers() end,              desc = "Pickers" },
-        { "<Leader><Leader>", function() Snacks.picker.buffers() end,              desc = "Buffers" },
-        { "<Leader>f",        function() Snacks.picker.files() end,                desc = "Files" },
-        { "<Leader>/",        function() Snacks.picker.lines() end,                desc = "Search buffer lines" },
-        { "<Leader>c",        function() Snacks.picker.grep_word() end,            desc = "Search word under cursor" },
-        { "<Leader>l",        function() Snacks.picker.grep() end,                 desc = "Live grep project" },
+        { '<Leader>e',        function() Snacks.explorer.open() end,                       desc = 'Open explorer' },
+        { '<Leader>E',        function() Snacks.explorer.open({ follow_file = true }) end, desc = 'Open explorer from current file' },
+        { '<Leader>d',        function() Snacks.bufdelete() end,                           desc = "Delete Buffer" },
+        { "]]",               function() Snacks.words.jump(vim.v.count1) end,              desc = "Next Reference",                 mode = { "n", "t" } },
+        { "[[",               function() Snacks.words.jump(-vim.v.count1) end,             desc = "Prev Reference",                 mode = { "n", "t" } },
+        { "<M-p>",            function() Snacks.picker.smart() end,                        desc = "Smart files picker" },
+        { "<M-P>",            function() Snacks.picker.pickers() end,                      desc = "Pickers" },
+        { "<Leader><Leader>", function() Snacks.picker.buffers() end,                      desc = "Buffers" },
+        { "<Leader>f",        function() Snacks.picker.files() end,                        desc = "Files" },
+        { "<Leader>/",        function() Snacks.picker.lines() end,                        desc = "Search buffer lines" },
+        { "<Leader>c",        function() Snacks.picker.grep_word() end,                    desc = "Search word under cursor" },
+        { "<Leader>l",        function() Snacks.picker.grep() end,                         desc = "Live grep project" },
         -- These could be inside lsp on_attach function but it's simpler to have them here
         -- gq is already bound to format lines using lsp
-        { "gd",               function() Snacks.picker.lsp_definitions() end,      desc = "Goto Definition" },
-        { "gD",               function() Snacks.picker.lsp_declarations() end,     desc = "Goto Declarations" },
-        { "gY",               function() Snacks.picker.lsp_type_definitions() end, desc = "Goto Type Definitions" },
+        { "gd",               function() Snacks.picker.lsp_definitions() end,              desc = "Goto Definition" },
+        { "gD",               function() Snacks.picker.lsp_declarations() end,             desc = "Goto Declarations" },
+        { "gY",               function() Snacks.picker.lsp_type_definitions() end,         desc = "Goto Type Definitions" },
         -- TODO: remove these once they become defaults in nvim 0.11
-        { "grn",              vim.lsp.buf.rename,                                  desc = "Rename References" },
-        { "gra",              vim.lsp.buf.code_action,                             desc = "Code Actions",            mode = { "n", "x" } },
-        { "grr",              function() Snacks.picker.lsp_references() end,       desc = "Goto References" },
-        { "gri",              function() Snacks.picker.lsp_implementations() end,  desc = "Goto Implementations" },
-        { "gO",               function() Snacks.picker.lsp_symbols() end,          desc = "Goto LSP Symbols" },
+        { "grn",              vim.lsp.buf.rename,                                          desc = "Rename References" },
+        { "gra",              vim.lsp.buf.code_action,                                     desc = "Code Actions",                   mode = { "n", "x" } },
+        { "grr",              function() Snacks.picker.lsp_references() end,               desc = "Goto References" },
+        { "gri",              function() Snacks.picker.lsp_implementations() end,          desc = "Goto Implementations" },
+        { "gO",               function() Snacks.picker.lsp_symbols() end,                  desc = "Goto LSP Symbols" },
       }
     },
     { 'folke/which-key.nvim', event = 'VeryLazy', opts = { preset = 'helix' } },
