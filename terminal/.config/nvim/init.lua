@@ -105,6 +105,7 @@ require("lazy").setup({
       config = function()
         local lspconfig = require('lspconfig')
         local capabilities = require('blink.cmp').get_lsp_capabilities()
+        local on_attach = require('lsp_utils').on_attach
 
         lspconfig.lua_ls.setup {
           capabilities = capabilities,
@@ -112,7 +113,7 @@ require("lazy").setup({
             -- Reduce unnecessarily long list of completion triggers for better completion experience
             client.server_capabilities.completionProvider.triggerCharacters = { '.', ':' }
 
-            require('lsp_utils').on_attach(client, buf_id)
+            on_attach(client, buf_id)
           end,
           settings = {
             Lua = {
@@ -120,6 +121,8 @@ require("lazy").setup({
             }
           }
         }
+
+        lspconfig.jsonls.setup({ capabilities = capabilities, on_attach = on_attach })
       end,
     },
     -- configure LuaLS for editing neovim config
