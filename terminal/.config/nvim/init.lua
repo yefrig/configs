@@ -3,7 +3,7 @@ pcall(function() vim.loader.enable() end)
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
   local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
   if vim.v.shell_error ~= 0 then
@@ -129,7 +129,7 @@ require("lazy").setup({
       end,
     },
     -- configure LuaLS for editing neovim config
-    { 'folke/lazydev.nvim',      ft = 'lua', opts = { library = { "snacks.nvim" } } },
+    { 'folke/lazydev.nvim',      ft = 'lua', opts = { library = { "snacks.nvim", { path = "${3rd}/luv/library", words = { "vim%.uv" } }, } } },
     { 'mfussenegger/nvim-jdtls', ft = 'java' },
     {
       'mfussenegger/nvim-lint',
