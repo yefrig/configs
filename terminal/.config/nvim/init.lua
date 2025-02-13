@@ -113,7 +113,7 @@ require("lazy").setup({
         local on_attach = function(client, buf_id)
           vim.lsp.inlay_hint.enable(true)
           vim.lsp.codelens.refresh({ bufnr = buf_id })
-          vim.diagnostic.config({ virtual_lines = { current_line = true } })
+          vim.diagnostic.config({ float = { source = 'if_many', border = 'rounded' }, virtual_lines = { current_line = true } })
 
           if client:supports_method(methods.textDocument_formatting) then
             vim.keymap.set('n', 'gQ', vim.lsp.buf.format, { desc = 'Format Buffer' })
@@ -143,30 +143,14 @@ require("lazy").setup({
             }
           }
         }
-
         lspconfig.jsonls.setup({})
+        -- basically a spell checker but with code actions!
+        lspconfig.typos_lsp.setup({})
       end,
     },
     -- configure LuaLS for editing neovim config
     { 'folke/lazydev.nvim',      ft = 'lua', opts = { library = { "snacks.nvim", { path = "${3rd}/luv/library", words = { "vim%.uv" } }, } } },
     { 'mfussenegger/nvim-jdtls', ft = 'java' },
-    {
-      'mfussenegger/nvim-lint',
-      config = function()
-        local lint = require('lint')
-        vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-          group = vim.api.nvim_create_augroup('lint', {}),
-          callback = function()
-            if vim.opt_local.modifiable:get() then
-              -- ft specific
-              lint.try_lint()
-              -- for all fts
-              lint.try_lint("codespell")
-            end
-          end,
-        })
-      end
-    },
     { "j-hui/fidget.nvim",            opts = { notification = { override_vim_notify = true } } },
     -- indent lines + ii and ai for text objects
     { 'echasnovski/mini.indentscope', opts = {} },
