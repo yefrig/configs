@@ -148,15 +148,7 @@ require("lazy").setup({
         })
       end
     },
-    {
-      'echasnovski/mini.notify',
-      -- lazy after initial ui
-      event = 'VeryLazy',
-      config = function()
-        require('mini.notify').setup()
-        vim.notify = MiniNotify.make_notify()
-      end
-    },
+    { "j-hui/fidget.nvim",            opts = { notification = { override_vim_notify = true } } },
     -- indent lines + ii and ai for text objects
     { 'echasnovski/mini.indentscope', opts = {} },
     -- example: change inside next argument (cina)
