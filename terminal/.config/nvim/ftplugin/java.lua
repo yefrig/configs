@@ -2,13 +2,10 @@ local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = vim.fn.stdpath "data" .. "/site/java/workspace-root/" .. project_name
 vim.fn.mkdir(workspace_dir, "p")
 
-local cpm_capabilities = require('blink.cmp').get_lsp_capabilities()
 local root_dir = vim.fs.root(0, {".git", "mvnw", "gradlew"})
 
 local jdtls = require('jdtls')
 local config = {
-  capabilities = cpm_capabilities,
-  on_attach = require('lsp_utils').on_attach,
   cmd = {
     -- point to jdtls installation
     vim.fn.expand "~/projects/jdt/bin/jdtls",

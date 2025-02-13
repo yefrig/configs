@@ -106,18 +106,37 @@ require("lazy").setup({
         }
       },
       config = function()
+        local methods = vim.lsp.protocol.Methods
         local lspconfig = require('lspconfig')
         local capabilities = require('blink.cmp').get_lsp_capabilities()
-        local on_attach = require('lsp_utils').on_attach
+
+        local on_attach = function(client, buf_id)
+          vim.lsp.inlay_hint.enable(true)
+          vim.lsp.codelens.refresh({ bufnr = buf_id })
+          vim.diagnostic.config({ virtual_lines = { current_line = true } })
+
+          if client:supports_method(methods.textDocument_formatting) then
+            vim.keymap.set('n', 'gQ', vim.lsp.buf.format, { desc = 'Format Buffer' })
+          end
+
+          vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
+            buffer = buf_id,
+            group = vim.api.nvim_create_augroup('lsp-codelens', {}),
+            callback = function() vim.lsp.codelens.refresh({ bufnr = 0 }) end
+          })
+        end
+
+        -- Update configs globally
+        lspconfig.util.default_config = vim.tbl_extend(
+          "force",
+          lspconfig.util.default_config,
+          {
+            capabilities = capabilities,
+            on_attach = on_attach
+          }
+        )
 
         lspconfig.lua_ls.setup {
-          capabilities = capabilities,
-          on_attach = function(client, buf_id)
-            -- Reduce unnecessarily long list of completion triggers for better completion experience
-            client.server_capabilities.completionProvider.triggerCharacters = { '.', ':' }
-
-            on_attach(client, buf_id)
-          end,
           settings = {
             Lua = {
               hint = { enable = true, arrayIndex = "Disable" }
@@ -125,7 +144,7 @@ require("lazy").setup({
           }
         }
 
-        lspconfig.jsonls.setup({ capabilities = capabilities, on_attach = on_attach })
+        lspconfig.jsonls.setup({})
       end,
     },
     -- configure LuaLS for editing neovim config
