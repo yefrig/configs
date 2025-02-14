@@ -59,9 +59,7 @@ require("lazy").setup({
       }
     },
     { 'echasnovski/mini.icons',    opts = {} },
-    -- Test this out. might want something similar to vscode
-    { 'nvim-lualine/lualine.nvim', opts = {} },
-    { 'lewis6991/gitsigns.nvim',   opts = {} },
+    { 'echasnovski/mini.statusline',    opts = {} },
     { 'sindrets/diffview.nvim',    opts = {}, cmd = { 'DiffviewOpen', 'DiffviewFileHistory' } },
     -- Detect tabstop and shiftwidth automatically
     { 'tpope/vim-sleuth' },
@@ -149,7 +147,16 @@ require("lazy").setup({
       end,
     },
     -- configure LuaLS for editing neovim config
-    { 'folke/lazydev.nvim',      ft = 'lua', opts = { library = { "snacks.nvim", { path = "${3rd}/luv/library", words = { "vim%.uv" } }, } } },
+    {
+      'folke/lazydev.nvim',
+      ft = 'lua',
+      opts = {
+        library = {
+          "snacks.nvim",
+          "mini.diff",
+          { path = "${3rd}/luv/library", words = { "vim%.uv" } }, }
+      }
+    },
     { 'mfussenegger/nvim-jdtls', ft = 'java' },
     { "j-hui/fidget.nvim",            opts = { notification = { override_vim_notify = true } } },
     -- indent lines + ii and ai for text objects
@@ -157,6 +164,13 @@ require("lazy").setup({
     -- example: change inside next argument (cina)
     { 'echasnovski/mini.ai',          event = 'VeryLazy', opts = {} },
     { 'echasnovski/mini.pairs',       event = 'VeryLazy', opts = {} },
+    { 'echasnovski/mini-git',         event = 'VeryLazy', opts = {}, main = 'mini.git' },
+    {
+      'echasnovski/mini.diff',
+      event = 'VeryLazy',
+      opts = {},
+      keys = { { '\\o', function() MiniDiff.toggle_overlay(0) end, desc = 'Toggle Overlay (git)' } }
+    },
     -- <M-(hjkl)> to move lines in N and V
     { "echasnovski/mini.move",        event = 'VeryLazy', opts = {} },
     {
