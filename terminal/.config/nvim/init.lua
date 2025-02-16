@@ -59,6 +59,8 @@ require("lazy").setup({
       }
     },
     { 'echasnovski/mini.icons',    opts = {} },
+    'HiPhish/rainbow-delimiters.nvim',
+    -- TODO: separate dev info into groups highlighted differently
     { 'echasnovski/mini.statusline',    opts = {} },
     { 'sindrets/diffview.nvim',    opts = {}, cmd = { 'DiffviewOpen', 'DiffviewFileHistory' } },
     -- Detect tabstop and shiftwidth automatically
@@ -142,6 +144,7 @@ require("lazy").setup({
           }
         }
         lspconfig.jsonls.setup({})
+        lspconfig.clojure_lsp.setup({})
         -- basically a spell checker but with code actions!
         lspconfig.typos_lsp.setup({})
       end,
