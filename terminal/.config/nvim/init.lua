@@ -1,20 +1,16 @@
----@diagnostic disable: duplicate-set-field, missing-fields
+----@diagnostic disable: duplicate-set-field, missing-fields
 pcall(function() vim.loader.enable() end)
 
--- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out,                            "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--branch=stable",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
+  })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -28,21 +24,10 @@ vim.keymap.set({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and 
 require("lazy").setup({
   spec = {
     {
-      'folke/tokyonight.nvim',
-      priority = 1000,
-      -- update word highlight to be less distracting
-      opts = { style = "night", on_highlights = function(hl, c) hl.LspReferenceRead = { bg = c.bg_highlight } end },
-      init = function()
-        -- vim.cmd('colorscheme tokyonight')
-      end
-    },
-    {
       'rose-pine/neovim',
       name = 'rose-pine',
       opts = {
         highlight_groups = {
-          -- Avoid overriding fg highlight from other sources (kind, treesitter) by adding a background instead
-          BlinkCmpMenuSelection = { bg = "overlay" },
           -- Needed for java to look decent
           ["@lsp.type.modifier.java"] = { link = "@keyword" }
         }
@@ -58,11 +43,14 @@ require("lazy").setup({
         autocommands = { relnum_in_visual_mode = true },
       }
     },
-    { 'echasnovski/mini.icons',    opts = {} },
+    { 'echasnovski/mini.icons',       opts = {} },
     'HiPhish/rainbow-delimiters.nvim',
     -- TODO: separate dev info into groups highlighted differently
-    { 'echasnovski/mini.statusline',    opts = {} },
-    { 'sindrets/diffview.nvim',    opts = {}, cmd = { 'DiffviewOpen', 'DiffviewFileHistory' } },
+    { 'echasnovski/mini.statusline',  opts = {} },
+    -- indent lines + ii and ai for text objects
+    { 'echasnovski/mini.indentscope', opts = {} },
+    { "j-hui/fidget.nvim",            opts = { notification = { override_vim_notify = true } } },
+    { 'sindrets/diffview.nvim',       opts = {}, cmd = { 'DiffviewOpen', 'DiffviewFileHistory' } },
     -- Detect tabstop and shiftwidth automatically
     { 'tpope/vim-sleuth' },
     {
@@ -70,9 +58,7 @@ require("lazy").setup({
       main = 'nvim-treesitter.configs',
       opts = {
         auto_install = true,
-        highlight = {
-          enable = true
-        },
+        highlight = { enable = true },
         -- TODO: update keybinds for selection
         incremental_selection = {
           enable = true,
@@ -84,9 +70,7 @@ require("lazy").setup({
           }
         },
         -- indent based on treesitter for = operator
-        indent = {
-          enable = true
-        }
+        indent = { enable = true }
       }
     },
     {
@@ -99,7 +83,10 @@ require("lazy").setup({
           ---@type blink.cmp.Config
           opts = {
             keymap = { preset = 'enter' },
-            completion = { documentation = { auto_show = true }, menu = { draw = { treesitter = { 'lsp' } } } },
+            completion = {
+              documentation = { auto_show = true },
+              menu = { draw = { treesitter = { 'lsp' } } },
+            },
             signature = { enabled = true },
             sources = { cmdline = {} }
           }
@@ -161,9 +148,6 @@ require("lazy").setup({
       }
     },
     { 'mfussenegger/nvim-jdtls', ft = 'java' },
-    { "j-hui/fidget.nvim",            opts = { notification = { override_vim_notify = true } } },
-    -- indent lines + ii and ai for text objects
-    { 'echasnovski/mini.indentscope', opts = {} },
     -- example: change inside next argument (cina)
     { 'echasnovski/mini.ai',          event = 'VeryLazy', opts = {} },
     { 'echasnovski/mini.pairs',       event = 'VeryLazy', opts = {} },
