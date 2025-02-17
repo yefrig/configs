@@ -147,11 +147,13 @@ require("lazy").setup({
           { path = "${3rd}/luv/library", words = { "vim%.uv" } }, }
       }
     },
-    { 'mfussenegger/nvim-jdtls', ft = 'java' },
+    { 'mfussenegger/nvim-jdtls',    ft = 'java' },
+    { "julienvincent/nvim-paredit", ft = 'clojure',     opts = {} },
     -- example: change inside next argument (cina)
-    { 'echasnovski/mini.ai',          event = 'VeryLazy', opts = {} },
-    { 'echasnovski/mini.pairs',       event = 'VeryLazy', opts = {} },
-    { 'echasnovski/mini-git',         event = 'VeryLazy', opts = {}, main = 'mini.git' },
+    { 'echasnovski/mini.ai',       event = 'VeryLazy', opts = {} },
+    { 'echasnovski/mini.surround', event = 'VeryLazy', opts = {} },
+    { 'echasnovski/mini.pairs',    event = 'VeryLazy', opts = {} },
+    { 'echasnovski/mini-git',      event = 'VeryLazy', opts = {}, main = 'mini.git' },
     {
       'echasnovski/mini.diff',
       event = 'VeryLazy',
