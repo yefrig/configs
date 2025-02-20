@@ -2,10 +2,14 @@ local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = vim.fn.stdpath "data" .. "/site/java/workspace-root/" .. project_name
 vim.fn.mkdir(workspace_dir, "p")
 
-local root_dir = vim.fs.root(0, {".git", "mvnw", "gradlew"})
+local root_dir = vim.fs.root(0, { ".git", "mvnw", "gradlew" })
 
 local jdtls = require('jdtls')
+local default_config = require('lspconfig').util.default_config
+
 local config = {
+  -- nvim-jdtls does not merge with lspconfig so defaults need to be added manually
+  capabilities = default_config.capabilities,
   cmd = {
     -- point to jdtls installation
     vim.fn.expand "~/projects/jdt/bin/jdtls",
@@ -14,7 +18,6 @@ local config = {
     "-data",
     workspace_dir,
   },
-  init_options = { extendedClientCapabilities = jdtls.extendedClientCapabilities },
   root_dir = root_dir,
   settings = {
     java = {
