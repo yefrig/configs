@@ -157,8 +157,8 @@ require("lazy").setup({
     { "julienvincent/nvim-paredit", ft = "clojure", opts = {} },
     -- example: change inside next argument (cina)
     { "echasnovski/mini.ai", event = "VeryLazy", opts = {} },
-    { "echasnovski/mini.surround", event = "VeryLazy", opts = {} },
     { "echasnovski/mini.pairs", event = "VeryLazy", opts = {} },
+    { "ggandor/leap.nvim", config = function() require("leap").create_default_mappings() end },
     { "echasnovski/mini-git", event = "VeryLazy", opts = {}, main = "mini.git" },
     {
       "echasnovski/mini.diff",
