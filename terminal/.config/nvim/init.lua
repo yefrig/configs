@@ -87,7 +87,6 @@ require("lazy").setup({
               menu = { draw = { treesitter = { "lsp" } } },
             },
             signature = { enabled = true },
-            sources = { cmdline = {} },
           },
         },
       },
