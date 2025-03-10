@@ -23,7 +23,7 @@ require("lazy").setup({
       maplocalleader = ",",
     },
   },
-  -- { import = "community" },
+  { import = "community" },
   { import = "astro" },
 } --[[@as LazySpec]], {
   install = { colorscheme = { "astrotheme", "habamax" } },
