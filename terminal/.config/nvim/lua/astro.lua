@@ -25,6 +25,7 @@ return {
     version = false,
     branch = "v3",
     ---@type AstroUIOpts
-    opts = { colorscheme = "astrodark" }
+    opts = { colorscheme = "astromars" }
   },
+  { "nvim-neo-tree/neo-tree.nvim", opts = { filesystem = { group_empty_dirs = true } } }
 }

@@ -40,7 +40,5 @@ require("lazy").setup({
     },
   },
 } --[[@as LazyConfig]])
-
 --- TODOs:
---- - update neotree to use empty dirs (this is why we are here anyways)
 --- - might want to remove the highlighting plugin
