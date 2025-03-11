@@ -25,7 +25,14 @@ return {
     version = false,
     branch = "v3",
     ---@type AstroUIOpts
-    opts = { colorscheme = "astromars" }
+    opts = {
+      colorscheme = "astromars",
+      highlights = {
+        init = {
+          ["@lsp.type.modifier"] = { link = "@modifier" },
+        }
+      }
+    }
   },
   { "nvim-neo-tree/neo-tree.nvim", opts = { filesystem = { group_empty_dirs = true } } }
 }
