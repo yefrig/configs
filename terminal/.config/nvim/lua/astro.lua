@@ -30,6 +30,7 @@ return {
       highlights = {
         init = {
           ["@lsp.type.modifier"] = { link = "@modifier" },
+          ["@lsp.type.class"] = { link = "@class" },
         }
       }
     }

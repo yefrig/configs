@@ -1,6 +1,7 @@
 # env vars
 setenv VISUAL nvim
 setenv EDITOR $VISUAL
+set -gx JAVA_HOME (/usr/libexec/java_home -v21)
 
 # fzf opts
 setenv FZF_DEFAULT_COMMAND 'fd --type f'
