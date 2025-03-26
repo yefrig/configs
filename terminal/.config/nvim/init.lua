@@ -17,7 +17,6 @@ require("lazy").setup({
   {
     "AstroNvim/AstroNvim",
     import = "astronvim.plugins",
-    branch = "v5",
     opts = {
       mapleader = " ",
       maplocalleader = ",",
