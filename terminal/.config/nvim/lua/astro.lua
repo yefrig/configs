@@ -10,6 +10,11 @@ return {
           relativenumber = false,
         },
       },
+      mappings = {
+        n = {
+          ["<Leader><space>"] = { function() Snacks.picker.smart() end, desc = "Smart Find Files" },
+        }
+      }
     },
   },
   {
