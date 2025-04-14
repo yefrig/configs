@@ -67,4 +67,5 @@ return {
     -- library is already setup to be extended by astronvim
     opts = { library = { { path = "snacks.nvim", words = { "Snacks" } } } },
   },
+  { "Saghen/blink.cmp",            opts = { signature = { enabled = true } } }
 }
